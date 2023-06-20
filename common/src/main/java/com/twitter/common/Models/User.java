@@ -1,6 +1,6 @@
 package com.twitter.common.Models;
 
-import common.Models.Messages.Visuals.Image;
+import com.twitter.common.Models.Messages.Visuals.Image;
 
 import java.io.Serializable;
 import java.util.Date;

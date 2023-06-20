@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="startup_button">
-        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_width">@dimen/button_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">15dp</item>
         <item name="android:textColor">@color/white</item>
@@ -9,8 +9,49 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textAlignment">center</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/button_textSize</item>
         <item name="android:paddingStart">@dimen/button_icon_padding</item>
         <item name="android:paddingEnd">@dimen/button_icon_padding</item>
     </style>
+
+    <style name="text_box" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/button_padding_end</item>
+        <item name="android:layout_marginStart">@dimen/button_padding_start</item>
+        <item name="boxStrokeWidth">3dp</item>
+        <item name="boxStrokeColor">@color/A300</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+    </style>
+
+
+    <style name="text_field" parent="ThemeOverlay.Material3.TextInputEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="android:includeFontPadding">false</item>
+
+    </style>
+
+    <style name="text_view" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/button_padding_end</item>
+        <item name="android:layout_marginStart">@dimen/button_padding_start</item>
+    </style>
+
+    <style name="view_title" parent="android:Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/button_padding_start</item>
+        <item name="android:layout_marginBottom">@dimen/button_padding_bottom</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/segoe_bold</item>
+        <item name="android:layout_gravity">start</item>
+    </style>
+
+
 </resources>

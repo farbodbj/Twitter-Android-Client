@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignInFragment">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="280dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/background_logo"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:text="@string/sign_in_page"
+            style="@style/view_title">
+        </TextView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etUsernameLayout"
+            app:errorEnabled="true"
+            style="@style/text_box">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUsername"
+                android:hint="@string/username_field_hint"
+                android:inputType="textVisiblePassword|textNoSuggestions"
+                style="@style/text_field"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etPasswordLayout"
+            app:passwordToggleEnabled="true"
+            style="@style/text_box">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:hint="@string/password_field_hint"
+                android:inputType="textPassword"
+                style="@style/text_field"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <android.widget.Button
+            style="@style/startup_button"
+            android:text="@string/sign_in_button"
+            android:background="@drawable/startup_button"/>
+
+    </LinearLayout>
+
+
+
+</FrameLayout>

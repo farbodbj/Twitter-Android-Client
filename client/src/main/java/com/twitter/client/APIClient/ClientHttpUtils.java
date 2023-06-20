@@ -7,6 +7,8 @@ import com.twitter.common.API.API;
 import com.twitter.common.API.ResponseModel;
 import com.twitter.common.API.StatusCode;
 import com.twitter.common.Utils.GsonUtils;
+
+
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.InputStreamReader;
@@ -179,7 +181,7 @@ public class ClientHttpUtils {
             for (Map.Entry<String, String> entry : query.entrySet()) {
                 String entity = entry.getValue();
                 try {
-                    entity = URLEncoder.encode(entity, StandardCharsets.UTF_8);
+                    entity = URLEncoder.encode(entity, StandardCharsets.UTF_8.toString());
                 } catch (Exception ignore) {
                 }
 

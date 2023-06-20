@@ -2,4 +2,16 @@
     <string name="app_name">My Application</string>
     <string name="sign_in_button">sign in</string>
     <string name="sign_up_button">sign up</string>
+    <string name="next_button">next</string>
+    <string name="pick_date_button">birthdate</string>
+
+    <string name="username_field_hint"><font size="30">username or email</font></string>
+    <string name="password_field_hint"><font size="30">password</font></string>
+    <string name="repeat_password_field_hint"><font size="30">repeat password</font></string>
+    <string name="name_field_hint"><font size="30">account name</font></string>
+    <string name="email_field_hint"><font size="30">example@example.com</font></string>
+    <string name="birth_date_picker_hint"><font size="15">2000/01/01</font></string>
+    <string name="sign_up_page">sign up</string>
+    <string name="sign_in_page">sign in</string>
+
 </resources>

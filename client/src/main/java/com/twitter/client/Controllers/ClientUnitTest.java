@@ -22,11 +22,6 @@ public class ClientUnitTest {
 //        Tweet originalTweet2 = new Tweet(88, "2023-06-05 15:20:00", "Going on a hike today ️", 20, 10, 4);
 //        Quote quote2 = new Quote(89, "2023-06-05 16:00:00", "Have fun! Take lots of pictures ", 5, 2, 1, originalTweet2);
 
-        try {
-            manager.getTimeline(85, 100).showAll();
-        } catch (HandledException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     private static void unfollowTest(int followerId, int followedId) throws HandledException {

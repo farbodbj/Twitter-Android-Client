@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".SignUpFragment">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="200dp"
+        >
+
+        <TextView
+            android:text="@string/sign_up_page"
+            style="@style/view_title">
+        </TextView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etSignUpAccountNameLayout"
+            android:inputType="textNoSuggestions"
+            android:layout_marginBottom="@dimen/button_padding_bottom"
+            style="@style/text_box">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignUpAccountName"
+                android:layout_width="match_parent"
+                android:hint="@string/name_field_hint"
+                android:inputType="textVisiblePassword|textNoSuggestions"
+                style="@style/text_field"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etSignUpEmailLayout"
+            android:inputType="textNoSuggestions"
+            android:layout_marginBottom="@dimen/button_padding_bottom"
+            style="@style/text_box">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignUpEmail"
+                android:layout_width="match_parent"
+                android:hint="@string/email_field_hint"
+                android:inputType="textVisiblePassword|textNoSuggestions"
+                style="@style/text_field"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etSignUpPasswordLayout"
+            app:passwordToggleEnabled="true"
+            android:layout_marginBottom="@dimen/button_padding_bottom"
+            style="@style/text_box">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignUpPassword"
+                android:hint="@string/password_field_hint"
+                android:inputType="textPassword"
+                style="@style/text_field"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etPasswordRepeatLayout"
+            android:layout_marginBottom="@dimen/button_padding_bottom"
+            app:passwordToggleEnabled="false"
+            style="@style/text_box">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPasswordRepeat"
+                android:hint="@string/repeat_password_field_hint"
+                android:inputType="textPassword"
+                style="@style/text_field"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/button_padding_bottom"
+        style="@style/text_view">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/pick_date"
+            android:gravity="start|center_vertical"
+            android:text="@string/pick_date_button"
+            android:textColor="@color/black"
+            android:drawablePadding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/pick_calendar_button"
+            />
+
+        <Spinner
+            android:id="@+id/spinnerCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <android.widget.Button
+            style="@style/startup_button"
+            android:text="@string/next_button"
+            android:background="@drawable/startup_button"/>
+
+
+    </LinearLayout>
+</FrameLayout>

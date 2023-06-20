@@ -4,7 +4,7 @@ package com.twitter.common.Utils;
 import static com.twitter.common.Utils.SafeCall.safe;
 
 import com.sun.net.httpserver.Headers;
-import io.jsonwebtoken.SignatureAlgorithm;
+
 
 import java.util.Date;
 
@@ -12,6 +12,7 @@ import java.util.Map;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 
 //this class is not meant to be instantiated, therefor the constructor is private

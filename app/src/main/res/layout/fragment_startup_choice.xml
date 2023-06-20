@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartupChoiceFragment">
+
+    <LinearLayout
+        android:id="@+id/startup_choice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="320dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.widget.Button
+            android:id="@+id/startup_sign_in_button"
+            android:drawableStart="@drawable/sign_in_icon"
+            android:text="@string/sign_in_button"
+            android:background="@drawable/startup_button"
+            style="@style/startup_button"/>
+
+
+        <android.widget.Button
+            android:id="@+id/startup_sign_up_button"
+            android:drawableStart="@drawable/sign_up_icon"
+            android:text="@string/sign_up_button"
+            android:background="@drawable/startup_button"
+            style="@style/startup_button"/>
+
+    </LinearLayout>
+
+</FrameLayout>

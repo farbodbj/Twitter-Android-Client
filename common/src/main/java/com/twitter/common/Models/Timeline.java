@@ -10,10 +10,6 @@ public class Timeline {//TODO: it can implement Collections, might be a good ide
     private final List<Tweet> timelineTweets = new ArrayList<>();
     private int forUser;
 
-    public void showAll() {
-        timelineTweets.forEach(System.out::println);
-    }
-
     public List<Tweet> getTimelineTweets() {
         return timelineTweets;
     }
