@@ -48,9 +48,60 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <android.widget.Button
-            style="@style/startup_button"
+            android:id="@+id/sing_in_button"
             android:text="@string/sign_in_button"
-            android:background="@drawable/startup_button"/>
+            android:background="@drawable/startup_button"
+            style="@style/startup_button"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/sign_in_successful"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:visibility="invisible">
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    app:indicatorColor="@color/success_green"
+                    app:indicatorSize="45dp"/>
+
+                <TextView
+                    android:id="@+id/progressText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_in_success"
+                    android:textColor="@color/success_green"
+                    android:paddingTop="8dp"
+                    android:fontFamily="@font/segoe_bold"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/wrong_user_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/wrong_user_pass"
+                android:textColor="@color/failure_red"
+                android:fontFamily="@font/segoe_bold"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/internal_server_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/internal_server_error"
+                android:textColor="@color/failure_red"
+                android:fontFamily="@font/segoe_bold"
+                android:visibility="invisible"/>
+
+        </FrameLayout>
+
+
 
     </LinearLayout>
 

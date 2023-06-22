@@ -14,4 +14,12 @@
     <string name="sign_up_page">sign up</string>
     <string name="sign_in_page">sign in</string>
 
+    <string name="invalid_email_format">invalid email format</string>
+    <string name="invalid_password_format">invalid password format</string>
+    <string name="invalid_username_format">invalid username format</string>
+
+    <string name="sign_in_success">sign in successful…</string>
+    <string name="wrong_user_pass">wrong username or password</string>
+    <string name="internal_server_error">internal server error</string>
+
 </resources>

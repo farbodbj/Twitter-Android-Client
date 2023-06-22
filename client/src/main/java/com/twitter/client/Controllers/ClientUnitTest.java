@@ -11,17 +11,6 @@ public class ClientUnitTest {
     private static final UserActionsManager manager = UserActionsManager.getInstance();
     public static void main(String[] args) throws HandledException {
 
-        User target = userGen(6);
-
-        target = manager.signIn(target.getUsername(),target.getPasswordHash());
-        System.out.println(target);
-        System.out.println("login successful");
-
-//        Tweet originalTweet = new Tweet(88, "2023-06-06 09:30:00", "Just had the best coffee ever ️", 10, 5, 2);
-//        Quote quote1 = new Quote(89, "2023-06-06 09:35:00", "I agree! ", 3, 1, 1, originalTweet);
-//        Tweet originalTweet2 = new Tweet(88, "2023-06-05 15:20:00", "Going on a hike today ️", 20, 10, 4);
-//        Quote quote2 = new Quote(89, "2023-06-05 16:00:00", "Have fun! Take lots of pictures ", 5, 2, 1, originalTweet2);
-
     }
 
     private static void unfollowTest(int followerId, int followedId) throws HandledException {
@@ -65,4 +54,7 @@ VALUES
     (18, 87, '@user2 Did you see this?', NULL, NULL, NULL, NULL, 8, 2, 2, '2023-06-12 14:00:00', 3, 'Mention'),
     (19, 89, '@user3 What do you think about this?', 'https://example.com/img1.jpg', NULL, NULL, NULL, 3, 1, 5, '2023-06-13 16:30:00', 6, 'Mention');
 */
+/*
+
+* */
 

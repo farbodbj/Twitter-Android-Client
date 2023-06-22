@@ -3,15 +3,21 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#FAEBD7</color>
+
     <color name="twitter_blue">#1DA1F2</color>
     <color name="A50">#e1f1fc</color>
     <color name="A100">#b7dbf9</color>
     <color name="A200">#89c4f5</color>
-    <color name="A300" tools:override="true">#5aacf0</color>
+    <color name="A300">#5aacf0</color>
     <color name="A400">#329cee</color>
     <color name="A500">#2b8fe0</color>
     <color name="A600">#237ece</color>
     <color name="A700">#1c6cbc</color>
     <color name="A800">#10509d</color>
+
     <color name="hint_color">#33000000</color>
+
+    <color name="success_green">#4BB543</color>
+    <color name="failure_red">#ED4337</color>
+
 </resources>

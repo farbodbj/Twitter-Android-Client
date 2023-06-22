@@ -15,10 +15,8 @@ dependencyResolutionManagement {
 rootProject.name = "My Application"
 include ':app'
 include ':client'
-include ':server'
 include ':common'
 
 include ':common', ':client'
-include ':common', ':server'
 include ':common', ':app'
 include ':client', ':app'

@@ -1,11 +1,16 @@
 package com.twitter.client.Controllers;
 
+import com.twitter.client.APIClient.Callbacks.ErrorCallback;
+import com.twitter.client.APIClient.Callbacks.SuccessCallback;
 import com.twitter.client.APIClient.ClientHttpUtils;
+import com.twitter.client.APIClient.Callbacks.RequestErrorCallback;
+import com.twitter.client.APIClient.Callbacks.RequestSuccessCallback;
 import com.twitter.client.Session;
 import com.sun.net.httpserver.Headers;
 import com.twitter.common.API.API;
 import com.twitter.common.API.ResponseModel;
 import com.twitter.common.Exceptions.*;
+import com.twitter.common.Models.Messages.Textuals.Direct;
 import com.twitter.common.Models.Messages.Textuals.Mention;
 import com.twitter.common.Models.Messages.Textuals.Quote;
 import com.twitter.common.Models.Messages.Textuals.Retweet;
@@ -13,9 +18,6 @@ import com.twitter.common.Models.Messages.Textuals.Tweet;
 import com.twitter.common.Models.Timeline;
 import com.twitter.common.Models.User;
 import com.twitter.common.Utils.JwtUtils;
-import com.twitter.server.Database.UserData.BlockList;
-import com.twitter.server.Database.UserData.Followers;
-import com.twitter.server.Database.UserData.Users;
 
 import java.util.HashMap;
 
@@ -41,55 +43,68 @@ public class UserActionsManager {
         return instance;
     }
 
-    public boolean signUp(User user) throws SignUpExceptions {
-        ResponseModel<Object> response =  ClientHttpUtils.post(
+    public void signUp(User user, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        ClientHttpUtils.post(
             API.SIGN_UP,
             user,
             Object.class,
             error -> {
-                //TODO: put good logic for error handling here
-             });
+            },
+            responseModel -> {
+                if (!responseModel.isSuccess()) {
+                    try {
+                        switch (responseModel.getStatus()) {
+                            case NOT_ALLOWED ->
+                                    onException.onError(new LegalAgeException());
 
-        if(!response.isSuccess()) {
-            try {
-                switch (response.getStatus()) {
-                    case NOT_ALLOWED -> throw new LegalAgeException();
-                    case DUPLICATE_RECORD -> throw new DuplicateRecordException(response.getMessage());
-                    default -> throw new IllegalStateException("Unexpected value: " + response.getStatus());
+                            case DUPLICATE_RECORD ->
+                                    onException.onError(new DuplicateRecordException(responseModel.getMessage()));
+
+                            default ->
+                                    onException.onError(new IllegalStateException("Unexpected value: " + responseModel.getStatus()));
+                        }
+                    } catch (IllegalStateException ignore) {
+                        onSuccess.onSuccess(false);
+                    }
+                } else {
+                    onSuccess.onSuccess(true);
                 }
-            }
-            catch (IllegalStateException ignore) {
-                return false;
-            }
-        }
-        else return true;
+            });
     }
 
-    public User signIn(String username, String passwordHash) throws HandledException {
+    public void signIn(String username, String passwordHash, SuccessCallback<User> onSuccess, ErrorCallback onException) throws HandledException {
         Map<String, String> query = new HashMap<>();
-        query.put(Users.COL_USERNAME, username);
-        query.put(Users.COL_PASSWORD_HASH, passwordHash);
+        query.put("username", username);
+        query.put("passwordHash", passwordHash);
 
-        ResponseModel<User> userResponseModel = ClientHttpUtils.get(
+        ClientHttpUtils.get(
                 API.SIGN_IN,
                 query,
                 User.class,
                 error -> {
 
+                },
+                responseModel -> {
+                    if(!responseModel.isSuccess()) {
+                        onSuccess.onSuccess(null);
+                        try {
+                            switch(responseModel.getStatus()) {
+                                case UNAUTHORIZED ->
+                                        onException.onError(new WrongCredentials());
+
+                                case UNKNOWN_ERROR ->
+                                        onException.onError(new InternalServerError());
+
+                                default ->
+                                        onException.onError(new IllegalStateException("Unexpected value: " + responseModel.getStatus()));
+                            }
+                        } catch (IllegalStateException e) {onException.onError(e);}
+                    } else {
+                        session.setSessionUser(responseModel.get());
+                        onSuccess.onSuccess(responseModel.get());
+                    }
                 });
 
-        if(!userResponseModel.isSuccess()) {
-            try {
-                switch(userResponseModel.getStatus()) {
-                    case UNAUTHORIZED -> throw new WrongCredentials();
-                    case UNKNOWN_ERROR -> throw new InternalServerError();
-                    default -> throw new IllegalStateException("Unexpected value: " + userResponseModel.getStatus());
-                }
-            } catch (IllegalStateException ignore) {}
-            return null;
-        }
-        session.setSessionUser(userResponseModel.get());
-        return session.getSessionUser();
     }
 
 
@@ -131,77 +146,78 @@ public class UserActionsManager {
         Headers headers = JwtUtils.getJwtHeader(session.getSessionUser().getUserId());
 
         Map<String, String> query = new HashMap<>();
-        query.put(Users.COL_USERID, String.valueOf(userId));
+        query.put("userId", String.valueOf(userId));
         query.put("max", String.valueOf(MAX_COUNT));
 
-        ResponseModel<Timeline> timeline = ClientHttpUtils.get(API.GET_TIMELINE, query, headers, Timeline.class,  error->{});
+        //ResponseModel<Timeline> timeline = ClientHttpUtils.get(API.GET_TIMELINE, query, headers, Timeline.class,  error->{});
 
-        return timeline.get();
+        //return timeline.get();
+        return null;
     }
 
 
     private  boolean updateFollowStatus(String APIEndpoint, int followerId, int followedId) throws HandledException {
         Map<String, String> followParams = new HashMap<>();
-        followParams.put(Followers.COL_FOLLOWED, String.valueOf(followedId));
-        followParams.put(Followers.COL_FOLLOWER, String.valueOf(followerId));
+        followParams.put("followed", String.valueOf(followedId));
+        followParams.put("follower", String.valueOf(followerId));
 
         return updateStatus(APIEndpoint, followParams, Object.class);
     }
 
     private  boolean updateBlockStatus(String APIEndpoint, int blockerId, int blockedId) throws HandledException {
         Map<String, String> blockParams = new HashMap<>();
-        blockParams.put(BlockList.COL_BLOCKED, String.valueOf(blockedId));
-        blockParams.put(BlockList.COL_BLOCKER, String.valueOf(blockerId));
+        blockParams.put("blocked", String.valueOf(blockedId));
+        blockParams.put("blocker", String.valueOf(blockerId));
 
         return updateStatus(APIEndpoint, blockParams, Object.class);
     }
 
     public boolean postRequest(String endpoint, Tweet requestObject) throws HandledException {
-        ResponseModel<Object> response = ClientHttpUtils.postSerialized(
-                endpoint,
-                requestObject,
-                JwtUtils.getJwtHeader(session.getSessionUser().getUserId()),
-                Object.class,
-                error->{
-                    System.out.println(error.getMessage());
-                });
-
-        if(!response.isSuccess()) {
-            try {
-                switch(response.getStatus()) {
-                    case UNAUTHORIZED -> throw new InternalServerError();
-                    default -> throw new IllegalStateException("Unexpected value: " + response.getStatus());
-                }
-            } catch (IllegalStateException ignore) {}
-            return false;
-        }
+//        ResponseModel<Object> response = ClientHttpUtils.postSerialized(
+//                endpoint,
+//                requestObject,
+//                JwtUtils.getJwtHeader(session.getSessionUser().getUserId()),
+//                Object.class,
+//                error->{
+//                    System.out.println(error.getMessage());
+//                });
+//
+//        if(!response.isSuccess()) {
+//            try {
+//                switch(response.getStatus()) {
+//                    case UNAUTHORIZED -> throw new InternalServerError();
+//                    default -> throw new IllegalStateException("Unexpected value: " + response.getStatus());
+//                }
+//            } catch (IllegalStateException ignore) {}
+//            return false;
+//        }
         return true;
     }
 
     private  <T> boolean updateStatus(String APIEndpoint, Map<String, String> params, Class<T> tClass) throws HandledException {
-        Headers headers = JwtUtils.getJwtHeader(session.getSessionUser().getUserId());
-
-        ResponseModel<T> response = ClientHttpUtils.post(
-                APIEndpoint,
-                params,
-                headers,
-                tClass,
-                error->{
-
-                }
-        );
-
-        if(!response.isSuccess()) {
-            try {
-                switch(response.getStatus()) {
-                    case UNKNOWN_ERROR -> throw new InternalServerError();
-                    case NOT_ALLOWED -> throw new IllegalUserAction();
-                    case UNAUTHORIZED -> throw new HandledException("permission denied");
-                    default -> throw new IllegalStateException("Unexpected value: " + response.getStatus());
-                }
-            } catch (IllegalStateException ignore) {}
-            return false;
-        }
+//        Headers headers = JwtUtils.getJwtHeader(session.getSessionUser().getUserId());
+//
+//        ResponseModel<T> response = ClientHttpUtils.post(
+//                APIEndpoint,
+//                params,
+//                headers,
+//                tClass,
+//                error->{
+//
+//                }
+//        );
+//
+//        if(!response.isSuccess()) {
+//            try {
+//                switch(response.getStatus()) {
+//                    case UNKNOWN_ERROR -> throw new InternalServerError();
+//                    case NOT_ALLOWED -> throw new IllegalUserAction();
+//                    case UNAUTHORIZED -> throw new HandledException("permission denied");
+//                    default -> throw new IllegalStateException("Unexpected value: " + response.getStatus());
+//                }
+//            } catch (IllegalStateException ignore) {}
+//            return false;
+//        }
 
         return true;
     }

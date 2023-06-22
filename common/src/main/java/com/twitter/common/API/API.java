@@ -1,9 +1,8 @@
 package com.twitter.common.API;
 
-import com.twitter.common.Annotations.APIEndpoint;
 public class API {
     public static final int PORT = 6985;
-    public static final String BASE_URL = "http://localhost:" + PORT;
+    public static final String BASE_URL = "http://192.168.1.141:" + PORT;
 
     public static final String AUTH_ENDPOINT = "/auth";
     public static final String SIGN_UP = AUTH_ENDPOINT + "/sign-up";
@@ -15,12 +14,15 @@ public class API {
 
     public static final String TWEET_ENDPOINT = "/tweet";
     public static final String TWEET = TWEET_ENDPOINT + "/new"; //creates a new tweet
-
     public static final String QUOTE = TWEET_ENDPOINT + "/quote"; //quotes a tweet and creates a new one
     public static final String RETWEET = TWEET_ENDPOINT + "/retweet"; //retweets a tweet
     public static final String MENTION = TWEET_ENDPOINT + "/mention"; //mentions a user in a tweet
     public static final String LIKE = TWEET_ENDPOINT + "/like"; //likes a tweet
     public static final String UNLIKE = TWEET_ENDPOINT + "/unlike"; //unlikes a tweet
+
+    public static final String MESSAGE = "/message";
+    public static final String DIRECT = "/message";
+
 
     public static final String USER_ENDPOINT = "/user";
     public static final String GET_PROFILE = USER_ENDPOINT + "/profile"; //returns user's profile information
