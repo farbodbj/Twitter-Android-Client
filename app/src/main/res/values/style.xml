@@ -14,6 +14,8 @@
         <item name="android:paddingEnd">@dimen/button_icon_padding</item>
     </style>
 
+
+
     <style name="text_box" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -48,9 +50,25 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/button_padding_start</item>
         <item name="android:layout_marginBottom">@dimen/button_padding_bottom</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/view_title_size_big</item>
         <item name="android:fontFamily">@font/segoe_bold</item>
         <item name="android:layout_gravity">start</item>
+    </style>
+
+    <style name="error_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/failure_red</item>
+        <item name="android:fontFamily">@font/segoe_bold</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="success_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/success_green</item>
+        <item name="android:fontFamily">@font/segoe_bold</item>
+        <item name="android:visibility">invisible</item>
     </style>
 
 

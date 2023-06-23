@@ -29,7 +29,7 @@
             style="@style/text_box">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etUsername"
-                android:hint="@string/username_field_hint"
+                android:hint="@string/username_or_email_field_hint"
                 android:inputType="textVisiblePassword|textNoSuggestions"
                 style="@style/text_field"
             />
@@ -73,31 +73,23 @@
 
                 <TextView
                     android:id="@+id/progressText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/sign_in_success"
-                    android:textColor="@color/success_green"
                     android:paddingTop="8dp"
-                    android:fontFamily="@font/segoe_bold"/>
+                    style="@style/success_text" />
+
             </LinearLayout>
             <TextView
                 android:id="@+id/wrong_user_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/wrong_user_pass"
-                android:textColor="@color/failure_red"
-                android:fontFamily="@font/segoe_bold"
-                android:visibility="invisible"/>
+                style="@style/error_text"
+                />
+
             <TextView
                 android:id="@+id/internal_server_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/internal_server_error"
-                android:textColor="@color/failure_red"
-                android:fontFamily="@font/segoe_bold"
-                android:visibility="invisible"/>
+                style="@style/error_text"/>
 
         </FrameLayout>
 

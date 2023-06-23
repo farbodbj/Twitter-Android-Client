@@ -2,15 +2,16 @@
     <string name="app_name">My Application</string>
     <string name="sign_in_button">sign in</string>
     <string name="sign_up_button">sign up</string>
-    <string name="next_button">next</string>
     <string name="pick_date_button">birthdate</string>
+    <string name="sign_up_complete_button">complete sign up</string>
 
-    <string name="username_field_hint"><font size="30">username or email</font></string>
+    <string name="username_or_email_field_hint"><font size="30">username or email</font></string>
     <string name="password_field_hint"><font size="30">password</font></string>
     <string name="repeat_password_field_hint"><font size="30">repeat password</font></string>
     <string name="name_field_hint"><font size="30">account name</font></string>
     <string name="email_field_hint"><font size="30">example@example.com</font></string>
-    <string name="birth_date_picker_hint"><font size="15">2000/01/01</font></string>
+    <string name="username_field_hint"><font size="30">@username</font></string>
+
     <string name="sign_up_page">sign up</string>
     <string name="sign_in_page">sign in</string>
 
@@ -21,5 +22,11 @@
     <string name="sign_in_success">sign in successful…</string>
     <string name="wrong_user_pass">wrong username or password</string>
     <string name="internal_server_error">internal server error</string>
+    <string name="passwords_dont_match">passwords don\'t match</string>
+    <string name="weak_password">weak password</string>
+    <string name="username_taken">username taken</string>
+    <string name="email_taken">there\'s an existing account with this email</string>
+    <string name="sign_up_success">sign up success</string>
+
 
 </resources>

@@ -82,7 +82,7 @@ public class UserActionsManager {
                 query,
                 User.class,
                 error -> {
-
+                    //TODO: place error handling logic here
                 },
                 responseModel -> {
                     if(!responseModel.isSuccess()) {
@@ -105,6 +105,30 @@ public class UserActionsManager {
                     }
                 });
 
+    }
+
+    public void usernameExists(String username, SuccessCallback<Boolean> onSuccess, RequestErrorCallback onException) {
+        Map<String, String> query = new HashMap<>();
+        query.put("username", username);
+
+        ClientHttpUtils.get(
+                API.CHECK_USERNAME,
+                query,
+                Boolean.class,
+                error->{},
+                responseModel -> onSuccess.onSuccess(responseModel.get()));
+    }
+
+    public void emailExists(String email, SuccessCallback<Boolean> onSuccess, RequestErrorCallback onException) {
+        Map<String, String> query = new HashMap<>();
+        query.put("email", email);
+
+        ClientHttpUtils.get(
+                API.CHECK_EMAIL,
+                query,
+                Boolean.class,
+                error->{},
+                responseModel -> onSuccess.onSuccess(responseModel.get()));
     }
 
 

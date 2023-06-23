@@ -35,4 +35,8 @@ public class API {
     public static final String SET_BIO = USER_ENDPOINT + "/set-bio"; //updates user's bio
     public static final String SET_HEADER = USER_ENDPOINT + "/set-header"; //updates user's header
     public static final String SET_USERNAME = USER_ENDPOINT + "/set-username"; //updates user's username
+
+    public static final String CHECK_EXISTENCE_ENDPOINT = "/check-existence";
+    public static final String CHECK_USERNAME = CHECK_EXISTENCE_ENDPOINT + "/username"; //checks for duplicate email
+    public static final String CHECK_EMAIL = CHECK_EXISTENCE_ENDPOINT + "/email"; //checks for duplicate username
 }

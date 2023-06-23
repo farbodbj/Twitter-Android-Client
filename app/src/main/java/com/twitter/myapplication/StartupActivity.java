@@ -40,12 +40,10 @@ public class StartupActivity extends AppCompatActivity implements SignInFragment
                     username,
                     password,
                     success -> {
-                        Debug.waitForDebugger();
-                        System.out.println("hey");
                         onSignInResult(true, success, null);
                     },
                     error -> {
-                        Debug.waitForDebugger();
+                        //TODO: make a better error handling logic
                         System.out.println(error.getMessage());
                     }
             );

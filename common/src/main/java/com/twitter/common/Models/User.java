@@ -137,7 +137,11 @@ public class User implements Serializable {
 
     public void setAccountMade(java.sql.Date accountMade) {this.accountMade = new Date(accountMade.getTime());}
 
+    public void setAccountMade(Date accountMade) {this.accountMade = accountMade;}
+
     public void setDateOfBirth(java.sql.Date dateOfBirth) {this.dateOfBirth = new Date(dateOfBirth.getTime());}
+
+    public void setDateOfBirth(Date dateOfBirth) {this.dateOfBirth = dateOfBirth;}
 
     public void setUserId(int userId) {
         this.userId = userId;

@@ -21,4 +21,9 @@
     <dimen name="button_textSize">20sp</dimen>
     <dimen name="hint_textSize">30</dimen>
 
+    <dimen name="linear_layout_margin_top">200dp</dimen>
+    <dimen name="view_title_size_big">20sp</dimen>
+    <dimen name="view_title_size_medium">18sp</dimen>
+    <dimen name="view_title_size_small">16sp</dimen>
+
 </resources>

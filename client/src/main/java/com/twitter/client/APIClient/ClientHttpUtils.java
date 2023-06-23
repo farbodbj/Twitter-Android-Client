@@ -21,12 +21,13 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ClientHttpUtils {
     private final static Gson GSON = GsonUtils.getInstance();
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(4);
+    private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public static <T> void get(
             String path,
@@ -91,7 +92,7 @@ public class ClientHttpUtils {
             RequestErrorCallback onError,
             RequestSuccessCallback<T> onSuccess
     ) {
-        executorService.submit(()-> {
+        executorService.execute(()-> {
             try {
                 ResponseModel<T> responseModel = executeRequest(method, path, data, query, headers, contentType);
                 if(responseModel != null) {
@@ -116,7 +117,7 @@ public class ClientHttpUtils {
             RequestErrorCallback onError,
             RequestSuccessCallback<T> onSuccess
     ) {
-        executorService.submit(()-> {
+        executorService.execute(()-> {
             try {
                 ResponseModel<T> responseModel = executeRequest(method, path, data, query, headers, contentType);
                 if (responseModel != null) {

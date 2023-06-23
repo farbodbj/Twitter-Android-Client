@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 //singleton
 public class GsonUtils {
+    //TODO: why is the date converted to this format after being sent?????
     public final static String STANDARD_DATE_FORMAT = "MMM d, yyyy, hh:mm:ss a";
     private static final Gson instance = createGson();
 
