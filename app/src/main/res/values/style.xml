@@ -12,6 +12,7 @@
         <item name="android:textSize">@dimen/button_textSize</item>
         <item name="android:paddingStart">@dimen/button_icon_padding</item>
         <item name="android:paddingEnd">@dimen/button_icon_padding</item>
+        <item name="android:background">@drawable/startup_button</item>
     </style>
 
 
@@ -68,7 +69,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/success_green</item>
         <item name="android:fontFamily">@font/segoe_bold</item>
-        <item name="android:visibility">invisible</item>
     </style>
 
 

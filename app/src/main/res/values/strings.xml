@@ -4,6 +4,7 @@
     <string name="sign_up_button">sign up</string>
     <string name="pick_date_button">birthdate</string>
     <string name="sign_up_complete_button">complete sign up</string>
+    <string name="tweet_button">tweet</string>
 
     <string name="username_or_email_field_hint"><font size="30">username or email</font></string>
     <string name="password_field_hint"><font size="30">password</font></string>
@@ -11,6 +12,7 @@
     <string name="name_field_hint"><font size="30">account name</font></string>
     <string name="email_field_hint"><font size="30">example@example.com</font></string>
     <string name="username_field_hint"><font size="30">@username</font></string>
+    <string name="tweet_field_hint">what\'s happening?</string>
 
     <string name="sign_up_page">sign up</string>
     <string name="sign_in_page">sign in</string>
@@ -27,6 +29,9 @@
     <string name="username_taken">username taken</string>
     <string name="email_taken">there\'s an existing account with this email</string>
     <string name="sign_up_success">sign up success</string>
+
+    <string name="tweet_successful">tweet sent successfully!</string>
+    <string name="tweet_failed">sending tweet failed!</string>
 
 
 </resources>

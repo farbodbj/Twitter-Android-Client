@@ -1,4 +1,4 @@
-package com.twitter.myapplication;
+package com.twitter.myapplication.StartUp;
 
 import static com.twitter.common.Utils.SafeCall.safe;
 import static com.twitter.myapplication.Utils.ValidationUtils.calculatePasswordSecurityLevel;
@@ -25,6 +25,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.twitter.client.Controllers.UserActionsManager;
 import com.twitter.common.Models.User;
+import com.twitter.myapplication.R;
+import com.twitter.myapplication.StandardFormats.StandardFragmentFormat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,7 +35,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class SignUpFragment extends Fragment implements StandardFragment {
+public class SignUpFragment extends Fragment implements StandardFragmentFormat {
     private final static int MINIMUM_PASSWORD_SECURITY_LEVEL = 3;
 
     @Override

@@ -4,12 +4,18 @@ import com.twitter.common.Models.User;
 
 public class Session {
     private User sessionUser;
+    private static Session instance;
 
-    public Session() {
+    public static Session getInstance() {
+        if(instance != null)
+            return instance;
+
+        instance = new Session();
+        return instance;
     }
 
-    public Session(User sessionUser) {
-        this.sessionUser = sessionUser;
+    private Session() {
+
     }
 
     public User getSessionUser() {

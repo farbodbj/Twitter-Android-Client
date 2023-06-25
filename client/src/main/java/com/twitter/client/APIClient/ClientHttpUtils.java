@@ -13,15 +13,17 @@ import com.twitter.common.Utils.GsonUtils;
 
 import org.apache.commons.lang3.SerializationUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -192,7 +194,6 @@ public class ClientHttpUtils {
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(method);
-        conn.setDoOutput(true);
 
         if(headers != null) {
             for (String header: headers.keySet()){
@@ -202,6 +203,7 @@ public class ClientHttpUtils {
 
         if (data != null && method.equals("POST")) {
             byte[] bytes = SerializationUtils.serialize(data);
+            conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", "application/octet-stream");
             conn.setRequestProperty("Content-Length", String.valueOf(bytes.length));
             conn.getOutputStream().write(bytes);

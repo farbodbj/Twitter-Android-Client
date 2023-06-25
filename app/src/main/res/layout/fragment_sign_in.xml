@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignInFragment">
+    tools:context=".StartUp.SignInFragment">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -50,7 +50,6 @@
         <android.widget.Button
             android:id="@+id/sing_in_button"
             android:text="@string/sign_in_button"
-            android:background="@drawable/startup_button"
             style="@style/startup_button"/>
 
         <FrameLayout
@@ -64,9 +63,10 @@
                 android:layout_gravity="center"
                 android:visibility="invisible">
                 <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/progressBar"
+                    android:layout_gravity="center"
                     android:indeterminate="true"
                     app:indicatorColor="@color/success_green"
                     app:indicatorSize="45dp"/>
@@ -92,11 +92,5 @@
                 style="@style/error_text"/>
 
         </FrameLayout>
-
-
-
     </LinearLayout>
-
-
-
 </FrameLayout>

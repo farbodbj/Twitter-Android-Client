@@ -9,6 +9,7 @@ import com.twitter.client.Session;
 import com.sun.net.httpserver.Headers;
 import com.twitter.common.API.API;
 import com.twitter.common.API.ResponseModel;
+import com.twitter.common.API.StatusCode;
 import com.twitter.common.Exceptions.*;
 import com.twitter.common.Models.Messages.Textuals.Direct;
 import com.twitter.common.Models.Messages.Textuals.Mention;
@@ -28,11 +29,9 @@ import static com.twitter.common.API.StatusCode.*;
 
 //TODO: client should not have server as a dependency, solve this problem
 public class UserActionsManager {
-    private static Session session;
     private static UserActionsManager instance;
 
     private UserActionsManager() {
-        session = new Session();
     }
 
     public static UserActionsManager getInstance() {
@@ -100,7 +99,7 @@ public class UserActionsManager {
                             }
                         } catch (IllegalStateException e) {onException.onError(e);}
                     } else {
-                        session.setSessionUser(responseModel.get());
+                        Session.getInstance().setSessionUser(responseModel.get());
                         onSuccess.onSuccess(responseModel.get());
                     }
                 });
@@ -142,20 +141,20 @@ public class UserActionsManager {
     }
 
 
-    public boolean tweet(Tweet tweet) throws HandledException {
-        return postRequest(API.TWEET, tweet);
+    public void tweet(Tweet tweet,  SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        postRequest(API.TWEET, tweet, onSuccess, onException);
     }
 
-    public  boolean quote(Quote quote) throws HandledException{
-        return postRequest(API.QUOTE, quote);
+    public void quote(Quote quote  ,SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        postRequest(API.QUOTE, quote, onSuccess, onException);
     }
 
-    public  boolean retweet(Retweet retweet) throws HandledException {
-        return postRequest(API.RETWEET, retweet);
+    public void retweet(Retweet retweet,  SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        postRequest(API.RETWEET, retweet, onSuccess, onException);
     }
 
-    public  boolean mention(Mention mention) throws HandledException {
-        return postRequest(API.MENTION, mention);
+    public void mention(Mention mention,  SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        postRequest(API.MENTION, mention, onSuccess, onException);
     }
 
     public  boolean block(int blockerId, int blockedId) throws HandledException {
@@ -167,7 +166,7 @@ public class UserActionsManager {
     }
 
     public Timeline getTimeline(int userId, int MAX_COUNT) throws HandledException {
-        Headers headers = JwtUtils.getJwtHeader(session.getSessionUser().getUserId());
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
 
         Map<String, String> query = new HashMap<>();
         query.put("userId", String.valueOf(userId));
@@ -196,26 +195,31 @@ public class UserActionsManager {
         return updateStatus(APIEndpoint, blockParams, Object.class);
     }
 
-    public boolean postRequest(String endpoint, Tweet requestObject) throws HandledException {
-//        ResponseModel<Object> response = ClientHttpUtils.postSerialized(
-//                endpoint,
-//                requestObject,
-//                JwtUtils.getJwtHeader(session.getSessionUser().getUserId()),
-//                Object.class,
-//                error->{
-//                    System.out.println(error.getMessage());
-//                });
-//
-//        if(!response.isSuccess()) {
-//            try {
-//                switch(response.getStatus()) {
-//                    case UNAUTHORIZED -> throw new InternalServerError();
-//                    default -> throw new IllegalStateException("Unexpected value: " + response.getStatus());
-//                }
-//            } catch (IllegalStateException ignore) {}
-//            return false;
-//        }
-        return true;
+    public void postRequest(String endpoint, Tweet requestObject, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        ClientHttpUtils.postSerialized(
+                endpoint,
+                requestObject,
+                JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId()),
+                Integer.class,
+                error->{
+                    System.out.println(error.getMessage());
+                },
+                responseModel -> {
+                    if(!responseModel.isSuccess()) {
+                        try {
+                            switch(responseModel.getStatus()) {
+                                case UNAUTHORIZED ->
+                                        onException.onError(new InternalServerError());
+
+                                default ->
+                                        onException.onError(new IllegalStateException("Unexpected value: " + responseModel.getStatus()));
+                            }
+                        } catch (IllegalStateException ignore) {}
+                    }
+
+                    onSuccess.onSuccess(responseModel.get() == SUCCESS);
+
+                });
     }
 
     private  <T> boolean updateStatus(String APIEndpoint, Map<String, String> params, Class<T> tClass) throws HandledException {

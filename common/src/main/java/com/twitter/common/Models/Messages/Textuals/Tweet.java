@@ -4,6 +4,7 @@ package com.twitter.common.Models.Messages.Textuals;
 
 import com.twitter.common.Exceptions.AttachmentError;
 import com.twitter.common.Models.Messages.Visuals.Image;
+import com.twitter.common.Models.Messages.Visuals.Video;
 import com.twitter.common.Models.Messages.Visuals.Visual;
 import com.twitter.common.Models.User;
 
@@ -80,28 +81,34 @@ public class Tweet extends Textual {
     public void addImageAttachment(String path) throws AttachmentError {
         try {
             File file = new File(path);
-            if(attachments.size() < MAX_ATTACHMENT_COUNT)
-                attachments.add(new Image(file));
-            else
-                throw new AttachmentError("Too many attachments");
+            addImageAttachment(new Image(file));
         } catch (IOException e) {
             throw new AttachmentError();
         }
+    }
+
+    public void addImageAttachment(Image image) throws AttachmentError {
+        if(attachments.size() < MAX_ATTACHMENT_COUNT)
+            attachments.add(image);
+        else
+            throw new AttachmentError("Too many attachments");
     }
 
     public void addVideoAttachment(String path) throws AttachmentError {
         try {
             File file = new File(path);
-            if(attachments.size() < MAX_ATTACHMENT_COUNT)
-                attachments.add(new Image(file));
-            else
-                throw new AttachmentError("Too many attachments");
-
+            addVideoAttachment(new Video(file));
         } catch (IOException e) {
             throw new AttachmentError();
         }
     }
 
+    public void addVideoAttachment(Video video) throws AttachmentError{
+        if(attachments.size() < MAX_ATTACHMENT_COUNT)
+            attachments.add(video);
+        else
+            throw new AttachmentError("Too many attachments");
+    }
 
     public void setTweetId(long tweetId) {
         this.tweetId = tweetId;

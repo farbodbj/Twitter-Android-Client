@@ -4,15 +4,15 @@ package com.twitter.common.Utils;
 import static com.twitter.common.Utils.SafeCall.safe;
 
 import com.sun.net.httpserver.Headers;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 
 import java.util.Date;
 
 import java.util.Map;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 
 //this class is not meant to be instantiated, therefor the constructor is private
@@ -68,11 +68,16 @@ public class JwtUtils {
     }
 
     public static Headers getJwtHeader(int userId) {
-        Headers header = new Headers();
-        header.add(
-                JwtUtils.name,
-                JwtUtils.refreshTokenGenerator(userId));
-        return header;
+        try{
+            Headers header = new Headers();
+            header.add(
+                    JwtUtils.name,
+                    JwtUtils.refreshTokenGenerator(userId));
+            return header;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static Headers getJwtHeader(String userId) {

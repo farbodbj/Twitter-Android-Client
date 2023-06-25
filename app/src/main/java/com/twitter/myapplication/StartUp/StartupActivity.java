@@ -1,4 +1,4 @@
-package com.twitter.myapplication;
+package com.twitter.myapplication.StartUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -6,15 +6,13 @@ import androidx.fragment.app.FragmentManager;
 import static com.twitter.myapplication.Utils.AndroidUtils.gotoFragment;
 
 import android.os.Bundle;
-import android.os.Debug;
 
 import com.twitter.client.Controllers.UserActionsManager;
 import com.twitter.common.Exceptions.HandledException;
 import com.twitter.common.Exceptions.InternalServerError;
 import com.twitter.common.Exceptions.WrongCredentials;
 import com.twitter.common.Models.User;
-
-import kotlinx.coroutines.AwaitKt;
+import com.twitter.myapplication.R;
 
 public class StartupActivity extends AppCompatActivity implements SignInFragment.SignInListener {
 
@@ -71,6 +69,16 @@ public class StartupActivity extends AppCompatActivity implements SignInFragment
 
             else
                 signInFragment.handleSignInResult(isSuccess, user, null);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            super.onBackPressed();
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 }

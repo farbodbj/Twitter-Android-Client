@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WriteTweetActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tweet_page_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_alignParentTop="true">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:src="@drawable/cross"
+            android:background="@color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <android.widget.Button
+            android:id="@+id/tweet_button"
+            android:layout_width="wrap_content"
+            android:text="@string/tweet_button"
+            android:layout_margin="@dimen/default_margin"
+            style="@style/startup_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/line_break"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:layout_below="@id/tweet_page_header"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tweet_page_header"
+        android:textColorHint="@color/color_medium_light_gray"
+        android:layout_marginStart="@dimen/default_margin"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTweet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/tweet_field_hint"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <include layout="@layout/line_break"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:layout_above="@id/tweet_page_footer"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tweet_page_footer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/tweet_characters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:indeterminate="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:indicatorColor="@color/twitter_blue" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/select_attachments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:src="@drawable/image"
+            android:background="@color/transparent"
+            app:tint="@color/A700"
+            app:layout_constraintEnd_toStartOf="@id/tweet_characters"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

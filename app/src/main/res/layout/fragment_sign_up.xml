@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".SignUpFragment">
+    tools:context=".StartUp.SignUpFragment">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -107,20 +107,18 @@
 
             <Spinner
                 android:id="@+id/spinnerCountry"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:maxWidth="@dimen/spinner_max_width"
                 android:layout_weight="1"
-
                 android:entries="@array/country_array"
                 android:spinnerMode="dropdown" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
         <android.widget.Button
             android:id="@+id/sign_up_complete"
             style="@style/startup_button"
-            android:text="@string/sign_up_complete_button"
-            android:background="@drawable/startup_button"/>
+            android:text="@string/sign_up_complete_button" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/sign_up_successful"

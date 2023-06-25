@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DefaultActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_page_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/line_break"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:layout_below="@id/home_page_header" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_homepage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/home_page_header"
+        android:layout_above="@+id/tabs">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_tweet_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/default_margin"
+            android:src="@drawable/write"
+            app:backgroundTint="@color/twitter_blue"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
+            app:maxImageSize="56dp" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/line_break"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:layout_above="@id/tabs" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_height="@dimen/tab_height"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        app:tabIconTint="@color/color_selector"
+        app:tabIndicatorColor="@color/color_selector"
+        >
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/home_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/home" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/profile_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/person"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/directs_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/letter" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+
+</RelativeLayout>

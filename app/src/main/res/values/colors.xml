@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#FAEBD7</color>
+    <color name="transparent">#00000000</color>
 
     <color name="twitter_blue">#1DA1F2</color>
     <color name="A50">#e1f1fc</color>
@@ -14,6 +15,18 @@
     <color name="A600">#237ece</color>
     <color name="A700">#1c6cbc</color>
     <color name="A800">#10509d</color>
+
+
+    <color name="color_black">#000000</color>
+    <color name="color_very_dark_gray">#1C1C1C</color>
+    <color name="color_dark_gray">#383838</color>
+    <color name="color_medium_dark_gray">#555555</color>
+    <color name="color_gray">#717171</color>
+    <color name="color_medium_light_gray">#8D8D8D</color>
+    <color name="color_light_gray">#AAAAAA</color>
+    <color name="color_very_light_gray">#C6C6C6</color>
+    <color name="color_almost_white">#E2E2E2</color>
+    <color name="color_white">#FFFFFF</color>
 
     <color name="hint_color">#33000000</color>
 

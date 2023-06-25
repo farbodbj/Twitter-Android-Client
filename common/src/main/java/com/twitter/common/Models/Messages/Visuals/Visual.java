@@ -9,6 +9,10 @@ public abstract class Visual implements Serializable {
     private byte[] fileBytes;
     private String fileFormat;
     private transient Path pathInStorage;
+
+    public Visual() {}
+
+
     public Visual(File file) throws IOException {
         this.fileBytes = Files.readAllBytes(file.toPath());
         this.fileFormat = file.getName().substring(file.getName().lastIndexOf("."));
