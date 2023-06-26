@@ -20,6 +20,7 @@ import com.twitter.common.Models.Timeline;
 import com.twitter.common.Models.User;
 import com.twitter.common.Utils.JwtUtils;
 
+import java.sql.Time;
 import java.util.HashMap;
 
 import java.util.Map;
@@ -46,6 +47,7 @@ public class UserActionsManager {
         ClientHttpUtils.post(
             API.SIGN_UP,
             user,
+    null,
             Object.class,
             error -> {
             },
@@ -76,9 +78,10 @@ public class UserActionsManager {
         query.put("username", username);
         query.put("passwordHash", passwordHash);
 
-        ClientHttpUtils.get(
+        ClientHttpUtils.getSerialized(
                 API.SIGN_IN,
                 query,
+        null,
                 User.class,
                 error -> {
                     //TODO: place error handling logic here
@@ -113,6 +116,7 @@ public class UserActionsManager {
         ClientHttpUtils.get(
                 API.CHECK_USERNAME,
                 query,
+        null,
                 Boolean.class,
                 error->{},
                 responseModel -> onSuccess.onSuccess(responseModel.get()));
@@ -125,21 +129,19 @@ public class UserActionsManager {
         ClientHttpUtils.get(
                 API.CHECK_EMAIL,
                 query,
+        null,
                 Boolean.class,
                 error->{},
                 responseModel -> onSuccess.onSuccess(responseModel.get()));
     }
 
-
-    //TODO: you may or may not need to change input type of this method to String
-    public boolean follow(int followerId, int followedId) throws HandledException {
-        return updateFollowStatus(API.FOLLOW, followerId, followedId);
+    public void follow(int followerId, int followedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        updateFollowStatus(API.FOLLOW, followerId, followedId, onSuccess, onException);
     }
 
-    public boolean unfollow(int followerId, int followedId) throws HandledException {
-        return updateFollowStatus(API.UNFOLLOW, followerId, followedId);
+    public void unfollow(int followerId, int followedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        updateFollowStatus(API.UNFOLLOW, followerId, followedId, onSuccess, onException);
     }
-
 
     public void tweet(Tweet tweet,  SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
         postRequest(API.TWEET, tweet, onSuccess, onException);
@@ -157,42 +159,65 @@ public class UserActionsManager {
         postRequest(API.MENTION, mention, onSuccess, onException);
     }
 
-    public  boolean block(int blockerId, int blockedId) throws HandledException {
-        return updateBlockStatus(API.BLOCK, blockerId, blockedId);
+    public void block(int blockerId, int blockedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) throws HandledException {
+        updateBlockStatus(API.BLOCK, blockerId, blockedId, onSuccess, onException);
     }
 
-    public  boolean unblock(int blockerId, int blockedId) throws HandledException {
-        return updateBlockStatus(API.UNBLOCK, blockerId, blockedId);
+    public void unblock(int blockerId, int blockedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) throws HandledException {
+        updateBlockStatus(API.UNBLOCK, blockerId, blockedId, onSuccess, onException);
     }
 
-    public Timeline getTimeline(int userId, int MAX_COUNT) throws HandledException {
+    public void like(int likerId, long tweetId,  SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        updateLikeStatus(API.LIKE, likerId, tweetId, onSuccess, onException);
+    }
+
+    public void unlike(int likerId, long tweetId,  SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        updateLikeStatus(API.UNLIKE, likerId, tweetId, onSuccess, onException);
+    }
+
+    public void getTimeline(int userId, int MAX_COUNT, SuccessCallback<Timeline> onSuccess, ErrorCallback onException) {
         Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
 
         Map<String, String> query = new HashMap<>();
         query.put("userId", String.valueOf(userId));
         query.put("max", String.valueOf(MAX_COUNT));
 
-        //ResponseModel<Timeline> timeline = ClientHttpUtils.get(API.GET_TIMELINE, query, headers, Timeline.class,  error->{});
+        ClientHttpUtils.getSerialized(
+                API.GET_TIMELINE,
+                query,
+                headers,
+                Timeline.class,
+                error->{
 
-        //return timeline.get();
-        return null;
+                },
+                responseModel -> onSuccess.onSuccess(responseModel.get())
+        );
     }
 
 
-    private  boolean updateFollowStatus(String APIEndpoint, int followerId, int followedId) throws HandledException {
+    private void updateFollowStatus(String APIEndpoint, int followerId, int followedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
         Map<String, String> followParams = new HashMap<>();
         followParams.put("followed", String.valueOf(followedId));
         followParams.put("follower", String.valueOf(followerId));
 
-        return updateStatus(APIEndpoint, followParams, Object.class);
+        updateStatus(APIEndpoint, followParams, Integer.class, onSuccess, onException);
     }
 
-    private  boolean updateBlockStatus(String APIEndpoint, int blockerId, int blockedId) throws HandledException {
+    private void updateBlockStatus(String APIEndpoint, int blockerId, int blockedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
         Map<String, String> blockParams = new HashMap<>();
         blockParams.put("blocked", String.valueOf(blockedId));
         blockParams.put("blocker", String.valueOf(blockerId));
 
-        return updateStatus(APIEndpoint, blockParams, Object.class);
+        updateStatus(APIEndpoint, blockParams, Integer.class, onSuccess, onException);
+    }
+
+    private void updateLikeStatus(String APIEndpoint, int likerId, long tweetId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        Map<String, String> likeParams = new HashMap<>();
+        likeParams.put("liker", String.valueOf(likerId));
+        likeParams.put("tweetId", String.valueOf(tweetId));
+
+        updateStatus(APIEndpoint, likeParams, Integer.class, onSuccess, onException);
+
     }
 
     public void postRequest(String endpoint, Tweet requestObject, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
@@ -202,18 +227,19 @@ public class UserActionsManager {
                 JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId()),
                 Integer.class,
                 error->{
-                    System.out.println(error.getMessage());
+                    //Error handling logic
                 },
                 responseModel -> {
                     if(!responseModel.isSuccess()) {
                         try {
-                            switch(responseModel.getStatus()) {
-                                case UNAUTHORIZED ->
-                                        onException.onError(new InternalServerError());
+                            onException.onError(
+                                    switch(responseModel.getStatus()) {
+                                        case UNAUTHORIZED ->
+                                                new InternalServerError();
 
-                                default ->
-                                        onException.onError(new IllegalStateException("Unexpected value: " + responseModel.getStatus()));
-                            }
+                                        default ->
+                                                new IllegalStateException("Unexpected value: " + responseModel.getStatus());
+                                    });
                         } catch (IllegalStateException ignore) {}
                     }
 
@@ -222,32 +248,40 @@ public class UserActionsManager {
                 });
     }
 
-    private  <T> boolean updateStatus(String APIEndpoint, Map<String, String> params, Class<T> tClass) throws HandledException {
-//        Headers headers = JwtUtils.getJwtHeader(session.getSessionUser().getUserId());
-//
-//        ResponseModel<T> response = ClientHttpUtils.post(
-//                APIEndpoint,
-//                params,
-//                headers,
-//                tClass,
-//                error->{
-//
-//                }
-//        );
-//
-//        if(!response.isSuccess()) {
-//            try {
-//                switch(response.getStatus()) {
-//                    case UNKNOWN_ERROR -> throw new InternalServerError();
-//                    case NOT_ALLOWED -> throw new IllegalUserAction();
-//                    case UNAUTHORIZED -> throw new HandledException("permission denied");
-//                    default -> throw new IllegalStateException("Unexpected value: " + response.getStatus());
-//                }
-//            } catch (IllegalStateException ignore) {}
-//            return false;
-//        }
+    private  <T> void updateStatus(String APIEndpoint, Map<String, String> params, Class<T> responseContentType , SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
 
-        return true;
+        ClientHttpUtils.post(
+                APIEndpoint,
+                params,
+                headers,
+                responseContentType,
+                error->{
+                    //Error handling logic
+                },
+                responseModel -> {
+                    if(!responseModel.isSuccess()) {
+                        try {
+                            onException.onError(
+                                switch(responseModel.getStatus()) {
+                                    case UNKNOWN_ERROR ->
+                                            new InternalServerError();
+
+                                    case NOT_ALLOWED ->
+                                            new IllegalUserAction();
+
+                                    case UNAUTHORIZED ->
+                                            new HandledException("permission denied");
+
+                                    default ->
+                                            new IllegalStateException("Unexpected value: " + responseModel.getStatus());
+
+                            });
+                        } catch (IllegalStateException ignore) {}
+
+                    }
+                    onSuccess.onSuccess((Integer) responseModel.get() == SUCCESS);
+                });
     }
 
 
