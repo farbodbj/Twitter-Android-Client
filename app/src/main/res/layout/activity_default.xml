@@ -21,38 +21,51 @@
             app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/line_break"
+    <include layout="@layout/vertical_line_break"
         android:layout_height="1dp"
         android:layout_width="match_parent"
         android:layout_below="@id/home_page_header" />
 
-
-    <RelativeLayout
-        android:id="@+id/rl_homepage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/home_page_header"
         android:layout_above="@+id/tabs">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <RelativeLayout
+            android:id="@+id/rl_homepage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_tweet_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/default_margin"
-            android:src="@drawable/write"
-            app:backgroundTint="@color/twitter_blue"
-            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
-            app:maxImageSize="56dp" />
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/timeline_swipe_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-    </RelativeLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/timeline_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-    <include layout="@layout/line_break"
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floating_tweet_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/margin_m"
+                android:src="@drawable/write"
+                app:backgroundTint="@color/twitter_blue"
+                app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
+                app:maxImageSize="56dp" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <include layout="@layout/vertical_line_break"
         android:layout_height="1dp"
         android:layout_width="match_parent"
         android:layout_above="@id/tabs" />

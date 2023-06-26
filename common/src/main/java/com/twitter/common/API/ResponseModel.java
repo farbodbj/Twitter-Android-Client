@@ -1,6 +1,8 @@
 package com.twitter.common.API;
 
-public class ResponseModel<T> {
+import java.io.Serializable;
+
+public class ResponseModel<T> implements Serializable {
 
     private final int status;
     private final boolean success;

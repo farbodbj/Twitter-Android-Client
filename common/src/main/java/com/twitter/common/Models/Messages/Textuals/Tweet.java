@@ -47,15 +47,6 @@ public class Tweet extends Textual {
         this.mentionCount = mentionCount;
     }
 
-    public Tweet(User sender, String sentAt, String text, int favCount, int retweetCount, int mentionCount) {
-        super(sender, sentAt);
-        this.text = text;
-        this.favCount = favCount;
-        this.retweetCount = retweetCount;
-        this.mentionCount = mentionCount;
-    }
-
-
     public long getTweetId() {return tweetId;}
 
     public String getText() {

@@ -11,14 +11,15 @@ import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 final public class AndroidUtils {
@@ -86,4 +87,23 @@ final public class AndroidUtils {
 
         return null;
     }
+
+    public static File cacheFileBytes(byte[] fileBytes, String fileName, String fileFormat, Context context) {
+        File tempFile = new File(context.getCacheDir(), fileName);
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(fileBytes);
+        } catch (IOException e) {
+            //Error handling logic
+            return null;
+        }
+        return tempFile;
+    }
+
+    public static void playVideoFromUri(Uri videoUri, Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(videoUri, "video/mp4");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivity(intent);
+    }
+
 }

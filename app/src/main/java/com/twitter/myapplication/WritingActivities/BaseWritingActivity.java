@@ -1,11 +1,6 @@
-package com.twitter.myapplication;
+package com.twitter.myapplication.WritingActivities;
 
 import static com.twitter.common.Utils.SafeCall.safe;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -18,29 +13,29 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
-import com.twitter.client.Controllers.UserActionsManager;
-import com.twitter.client.Session;
 import com.twitter.common.Models.Messages.Textuals.Tweet;
 import com.twitter.common.Models.Messages.Visuals.Image;
 import com.twitter.common.Models.Messages.Visuals.Video;
 import com.twitter.common.Models.Messages.Visuals.Visual;
+import com.twitter.myapplication.DefaultActivity;
+import com.twitter.myapplication.R;
 import com.twitter.myapplication.StandardFormats.StandardActivityFormat;
 import com.twitter.myapplication.Utils.AndroidUtils;
 
-import java.time.LocalDateTime;
+public abstract class BaseWritingActivity extends AppCompatActivity implements StandardActivityFormat {
+    protected Tweet tweet;
 
-public class WriteTweetActivity extends AppCompatActivity implements StandardActivityFormat {
-
-    private Tweet tweet = new Tweet();
-
-    private final static int SEND_TWEET_RESULT_TOAST_DURATION = 2500;
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_tweet);
+        setContentView(R.layout.activity_base_writing);
+
 
         initializeUIComponents();
     }
@@ -51,27 +46,25 @@ public class WriteTweetActivity extends AppCompatActivity implements StandardAct
         tweet = null;
     }
 
-    @Override
     public void initializeUIComponents() {
-        ImageButton  backButton = findViewById(R.id.back_button);
+        ImageButton backButton = findViewById(R.id.back_button);
         ImageButton chooseAttachments = findViewById(R.id.select_attachments);
-        Button tweetButton = findViewById(R.id.tweet_button);
-        CircularProgressIndicator tweetCharIndicator = findViewById(R.id.tweet_characters);
-        TextInputEditText etTweet = findViewById(R.id.etTweet);
+        Button sendButton = findViewById(R.id.tweet_button);
+        CircularProgressIndicator progressIndicator = findViewById(R.id.tweet_characters);
+        TextInputEditText etInput = findViewById(R.id.etTweet);
 
         setBackButton(backButton);
-        setProgressIndicator(tweetCharIndicator);
-        setTweetEditText(etTweet, tweetCharIndicator);
+        setProgressIndicator(progressIndicator);
+        setInputEditText(etInput, progressIndicator);
         setChooseAttachments(chooseAttachments);
-        setTweetButton(tweetButton);
+        setSendButton(sendButton);
     }
 
-    private void setBackButton(ImageButton backButton) {
+    protected void setBackButton(ImageButton backButton) {
         backButton.setOnClickListener(view -> AndroidUtils.gotoActivity(this, DefaultActivity.class, null));
     }
 
-    private void setChooseAttachments(ImageButton chooseAttachments) {
-
+    protected void setChooseAttachments(ImageButton chooseAttachments) {
         ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia =
                 registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(Tweet.MAX_ATTACHMENT_COUNT), uris -> {
                     for (Uri uri : uris) {
@@ -88,35 +81,17 @@ public class WriteTweetActivity extends AppCompatActivity implements StandardAct
         chooseAttachments.setOnClickListener(view -> pickMultipleMedia.launch(new PickVisualMediaRequest.Builder().build()));
     }
 
-    private void setTweetButton(Button tweetButton) {
-        tweetButton.setOnClickListener(view -> {
-                tweet.setSender(Session.getInstance().getSessionUser());
-                tweet.setSentAt(LocalDateTime.now());
-                UserActionsManager.getInstance()
-                    .tweet(tweet,
-                        result ->
-                                runOnUiThread(
-                                        ()-> {
-                                            AndroidUtils.showLongToastMessage(
-                                        WriteTweetActivity.this,
-                                                (result) ? getString(R.string.tweet_successful) : (getString(R.string.tweet_failed)),
-                                                SEND_TWEET_RESULT_TOAST_DURATION);
-                                            AndroidUtils.gotoActivity(WriteTweetActivity.this, DefaultActivity.class, null);
-                                        }),
-                        error -> {
-
-                        }
-                );
-        });
+    protected void setSendButton(Button sendButton) {
+        sendButton.setOnClickListener(v-> onSendButtonClick());
     }
 
-    private void setTweetEditText(TextInputEditText etTweet, CircularProgressIndicator tweetCharIndicator) {
-        etTweet.setFilters(new InputFilter[] { new InputFilter.LengthFilter(Tweet.MAX_TWEET_LENGTH) });
+    protected abstract void onSendButtonClick();
 
-        etTweet.addTextChangedListener(new TextWatcher() {
+    protected void setInputEditText(TextInputEditText etInput, CircularProgressIndicator progressIndicator) {
+        etInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
-                setIndicatorProgress(tweetCharIndicator, editable.length());
+                setIndicatorProgress(progressIndicator, editable.length());
                 tweet.setText(editable.toString());
             }
             @Override
@@ -126,16 +101,21 @@ public class WriteTweetActivity extends AppCompatActivity implements StandardAct
         });
     }
 
-    private void setProgressIndicator(CircularProgressIndicator tweetCharIndicator) {
-        tweetCharIndicator.setMax(Tweet.MAX_TWEET_LENGTH);
-    }
-
-    private void setIndicatorProgress(CircularProgressIndicator tweetCharIndicator, int progress) {
-        tweetCharIndicator.setProgress(progress);
+    protected void setInputEditTextFilters(TextInputEditText etInput) {
+        etInput.setFilters(new InputFilter[] { new InputFilter.LengthFilter(Tweet.MAX_TWEET_LENGTH) });
     }
 
 
-    private void processUri(Uri uri) {
+    protected void setProgressIndicator(CircularProgressIndicator progressIndicator) {
+        progressIndicator.setMax(Tweet.MAX_TWEET_LENGTH);
+    }
+
+    protected void setIndicatorProgress(CircularProgressIndicator progressIndicator, int progress) {
+        progressIndicator.setProgress(progress);
+    }
+
+
+    protected void processUri(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
 

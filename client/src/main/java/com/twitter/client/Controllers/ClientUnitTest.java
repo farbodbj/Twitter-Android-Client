@@ -13,12 +13,6 @@ public class ClientUnitTest {
 
     }
 
-    private static void unfollowTest(int followerId, int followedId) throws HandledException {
-        if(manager.unfollow(followerId,followedId))
-            System.out.println(followerId + "successfully unfollowed" + followedId);
-        else
-            System.out.println("nashod");
-    }
 
     private static User userGen(int i) {
         return new User(

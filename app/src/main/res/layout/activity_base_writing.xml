@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WriteTweetActivity">
+    tools:context=".WritingActivities.WriteTweetActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tweet_page_header"
@@ -16,7 +16,7 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginStart="@dimen/margin_m"
             android:src="@drawable/cross"
             android:background="@color/transparent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
             android:id="@+id/tweet_button"
             android:layout_width="wrap_content"
             android:text="@string/tweet_button"
-            android:layout_margin="@dimen/default_margin"
+            android:layout_margin="@dimen/margin_m"
             style="@style/startup_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +36,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/line_break"
+    <include layout="@layout/vertical_line_break"
         android:layout_height="1dp"
         android:layout_width="match_parent"
         android:layout_below="@id/tweet_page_header"/>
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tweet_page_header"
         android:textColorHint="@color/color_medium_light_gray"
-        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginStart="@dimen/margin_m"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp">
 
@@ -59,7 +59,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <include layout="@layout/line_break"
+    <include layout="@layout/vertical_line_break"
         android:layout_height="1dp"
         android:layout_width="match_parent"
         android:layout_above="@id/tweet_page_footer"/>
@@ -74,7 +74,7 @@
             android:id="@+id/tweet_characters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/margin_m"
             android:indeterminate="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,7 +84,7 @@
             android:id="@+id/select_attachments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/margin_m"
             android:src="@drawable/image"
             android:background="@color/transparent"
             app:tint="@color/A700"

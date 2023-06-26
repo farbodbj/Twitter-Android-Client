@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/tweet_item_layout"
+        android:id="@+id/quote"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_s"
+        android:layout_below="@id/quote"
+        android:layout_marginStart="@dimen/margin_xxl"
+        android:layout_marginEnd="@dimen/margin_s"
+        android:background="@drawable/box">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="@dimen/small_profile_picture_height"
+            android:maxWidth="@dimen/small_profile_picture_width"
+            android:layout_marginStart="@dimen/margin_m"
+            android:layout_marginTop="@dimen/margin_s"
+            android:src="@mipmap/ic_launcher"
+            app:strokeWidth="@dimen/profile_picture_stroke"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/margin_s"
+            android:layout_toEndOf="@id/profile_picture">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_s">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tweet_author_display_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_m"
+                    android:fontFamily="@font/segoe_bold"
+                    android:textSize="@dimen/quoted_tweet_textSizes"
+                    android:text="Elon Musk" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tweet_author_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/segoe"
+                    android:textSize="@dimen/quoted_tweet_textSizes"
+                    android:text="\@Elon_Musk"
+                    android:textColor="@color/color_light_gray"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tweet_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="@integer/quote_max_lines"
+                android:layout_marginTop="@dimen/margin_s"
+                android:layout_marginEnd="@dimen/margin_l"
+                android:fontFamily="@font/segoe"
+                android:textSize="@dimen/quoted_tweet_textSizes"
+                android:text="@string/test_tweet_text"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tweet_attachments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_m"
+                android:paddingEnd="@dimen/margin_m"
+                android:visibility="gone"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

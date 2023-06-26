@@ -2,6 +2,9 @@ package com.twitter.myapplication.Utils.StorageManager;
 
 import android.content.Context;
 
+import com.twitter.common.Models.Messages.Textuals.Tweet;
+import com.twitter.common.Models.Messages.Visuals.Visual;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,5 +35,9 @@ public class InternalStorageManager {
             e.printStackTrace();
         }
         return object;
+    }
+
+    public static void saveVisual(Visual visual) {
+
     }
 }

@@ -71,5 +71,25 @@
         <item name="android:fontFamily">@font/segoe_bold</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="tweet_action_button_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="android:layout_marginEnd">@dimen/margin_l</item>
+    </style>
+
+    <style name="count_textView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_s</item>
+        <item name="android:fontFamily">@font/segoe</item>
+        <item name="android:text">0</item>
+    </style>
+
 
 </resources>

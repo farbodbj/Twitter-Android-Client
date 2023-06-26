@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_s">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="@dimen/profile_picture_height"
+            android:maxWidth="@dimen/profile_picture_width"
+            android:layout_marginStart="@dimen/margin_m"
+            android:layout_marginTop="@dimen/margin_m"
+            android:src="@mipmap/ic_launcher"
+            app:strokeWidth="@dimen/profile_picture_stroke"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/margin_s"
+            android:layout_toEndOf="@id/profile_picture">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_m">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tweet_author_display_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_l"
+                    android:fontFamily="@font/segoe_bold"
+                    android:text="Elon Musk" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tweet_author_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/segoe"
+                    android:text="\@Elon_Musk"
+                    android:textColor="@color/color_light_gray"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tweet_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_m"
+                android:layout_marginEnd="@dimen/margin_l"
+                android:layout_marginBottom="@dimen/margin_m"
+                android:fontFamily="@font/segoe"
+                android:text="@string/test_tweet_text"
+                android:justificationMode="inter_word"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tweet_attachments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_m"
+                android:paddingEnd="@dimen/margin_m"
+                android:visibility="gone"/>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/mention_button"
+                    style="@style/tweet_action_button_style"
+                    android:src="@drawable/comment"
+                    app:layout_constraintEnd_toStartOf="@id/fav_button"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/mention_count"
+                    app:layout_constraintStart_toEndOf="@id/mention_button"
+                    app:layout_constraintTop_toTopOf="@id/mention_button"
+                    app:layout_constraintBottom_toBottomOf="@id/mention_button"
+                    style="@style/count_textView"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/fav_button"
+                    android:src="@drawable/like"
+                    android:scaleY="0.80"
+                    android:scaleX="0.80"
+                    app:layout_constraintStart_toEndOf="@id/mention_button"
+                    app:layout_constraintEnd_toStartOf="@id/retweet_button"
+                    style="@style/tweet_action_button_style" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/fav_count"
+                    app:layout_constraintStart_toEndOf="@id/fav_button"
+                    app:layout_constraintTop_toTopOf="@id/fav_button"
+                    app:layout_constraintBottom_toBottomOf="@id/fav_button"
+                    style="@style/count_textView"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/retweet_button"
+                    app:layout_constraintStart_toEndOf="@id/fav_button"
+                    app:layout_constraintEnd_toStartOf="@id/quote_button"
+                    android:src="@drawable/retweet"
+                    style="@style/tweet_action_button_style"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/retweet_count"
+                    app:layout_constraintStart_toEndOf="@id/retweet_button"
+                    app:layout_constraintTop_toTopOf="@id/retweet_button"
+                    app:layout_constraintBottom_toBottomOf="@id/retweet_button"
+                    style="@style/count_textView"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    app:layout_constraintStart_toEndOf="@id/retweet_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/quote_button"
+                    android:scaleY="0.80"
+                    android:scaleX="0.80"
+                    android:src="@drawable/quote"
+                    style="@style/tweet_action_button_style" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </RelativeLayout>
+
+    <include layout="@layout/horizontal_line_break"
+        android:layout_height="2dp"
+        android:layout_width="match_parent"/>
+
+</LinearLayout>

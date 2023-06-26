@@ -13,6 +13,7 @@
     <string name="email_field_hint"><font size="30">example@example.com</font></string>
     <string name="username_field_hint"><font size="30">@username</font></string>
     <string name="tweet_field_hint">what\'s happening?</string>
+    <string name="mention_field_hint">Replying to </string>
 
     <string name="sign_up_page">sign up</string>
     <string name="sign_in_page">sign in</string>
@@ -32,6 +33,8 @@
 
     <string name="tweet_successful">tweet sent successfully!</string>
     <string name="tweet_failed">sending tweet failed!</string>
+
+    <string name="test_tweet_text">Welcome to my Twitter page! I\'m currently learning and exploring the fascinating world of Android Development. Having fun creating a RecyclerView to show different tweets. It\'s intriguing how you can bring your creative ideas to life with code. Stay tuned for more updates! #AndroidDev</string>
 
 
 </resources>
