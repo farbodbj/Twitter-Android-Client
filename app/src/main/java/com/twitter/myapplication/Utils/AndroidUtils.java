@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
 
+import androidx.core.view.ContentInfoCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -42,6 +43,7 @@ final public class AndroidUtils {
         Intent intent = new Intent(context, destinationActivity);
         if(bundle != null)
             intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         context.startActivity(intent);
     }
 

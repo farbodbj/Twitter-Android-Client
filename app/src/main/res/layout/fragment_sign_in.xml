@@ -50,7 +50,7 @@
         <android.widget.Button
             android:id="@+id/sing_in_button"
             android:text="@string/sign_in_button"
-            style="@style/startup_button"/>
+            style="@style/default_button_style"/>
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -53,22 +53,20 @@
                     android:layout_height="match_parent" />
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floating_tweet_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="@dimen/margin_m"
-                app:elevation="@dimen/margin_m"
-                android:src="@drawable/write"
-                app:backgroundTint="@color/twitter_blue"
-                app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
-                app:maxImageSize="56dp" />
-
         </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_tweet_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/margin_m"
+            app:elevation="@dimen/margin_m"
+            android:src="@drawable/write"
+            app:backgroundTint="@color/twitter_blue"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
+            app:maxImageSize="56dp" />
+
     </FrameLayout>
 
     <include layout="@layout/vertical_line_break"

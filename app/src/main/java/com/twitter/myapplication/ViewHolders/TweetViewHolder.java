@@ -24,8 +24,6 @@ import com.twitter.myapplication.Utils.StorageManager.StorageHandler;
 public class TweetViewHolder extends RecyclerView.ViewHolder {
     public interface OnClickListener {
         void onMentionButtonClicked(Tweet parentTweet);
-        void onFavButtonClicked();
-        void onRetweetButtonClicked();
         void onQuoteButtonClicked(Tweet parentTweet);
     }
 
@@ -76,8 +74,6 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         setFavButton();
         setRetweetButton();
         setQuoteButton();
-
-
     }
 
     public void bind(Tweet tweet) {
@@ -85,7 +81,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
 
         //TODO: set image for profile picture
         authorDisplayName.setText(tweet.getSender().getDisplayName());
-        authorUserName.setText(tweet.getSender().getUsername());
+        authorUserName.setText(itemView.getResources().getString(R.string.tweet_sender_username_field, tweet.getSender().getUsername()));
         tweetText.setText(tweet.getText());
         mentionCount.setText(String.valueOf(tweet.getMentionCount()));
         retweetCount.setText(String.valueOf(tweet.getRetweetCount()));
@@ -174,7 +170,6 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
                         itemView.getContext(),
                         tweet
                 ));
-        tweetAttachmentsView.setLayoutManager(new GridLayoutManager(tweetAttachmentsView.getContext(), 2));
         tweetAttachmentsView.setAdapter(attachmentAdapter);
         attachmentAdapter.notifyDataSetChanged();
     }

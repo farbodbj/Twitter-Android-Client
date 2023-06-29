@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="startup_button">
+    <style name="default_button_style">
         <item name="android:layout_width">@dimen/button_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">15dp</item>
@@ -9,10 +9,18 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textAlignment">center</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">@dimen/button_textSize</item>
+        <item name="android:textSize">@dimen/button_textSize_l</item>
         <item name="android:paddingStart">@dimen/button_icon_padding</item>
         <item name="android:paddingEnd">@dimen/button_icon_padding</item>
-        <item name="android:background">@drawable/startup_button</item>
+        <item name="android:background">@drawable/default_button</item>
+    </style>
+
+    <style name="hollow_button_style">
+        <item name="android:fontFamily">@font/segoe</item>
+        <item name="android:textSize">@dimen/button_textSize_s</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/hollow_button</item>
+        <item name="android:fontWeight">600</item>
     </style>
 
 

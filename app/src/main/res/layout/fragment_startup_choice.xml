@@ -17,16 +17,16 @@
             android:id="@+id/startup_sign_in_button"
             android:drawableStart="@drawable/sign_in_icon"
             android:text="@string/sign_in_button"
-            android:background="@drawable/startup_button"
-            style="@style/startup_button"/>
+            android:background="@drawable/default_button"
+            style="@style/default_button_style"/>
 
 
         <android.widget.Button
             android:id="@+id/startup_sign_up_button"
             android:drawableStart="@drawable/sign_up_icon"
             android:text="@string/sign_up_button"
-            android:background="@drawable/startup_button"
-            style="@style/startup_button"/>
+            android:background="@drawable/default_button"
+            style="@style/default_button_style"/>
 
     </LinearLayout>
 

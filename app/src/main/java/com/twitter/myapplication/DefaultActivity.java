@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageButton;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,10 +22,16 @@ import com.twitter.myapplication.StandardFormats.StandardActivityFormat;
 import com.twitter.myapplication.Utils.AndroidUtils;
 import com.twitter.myapplication.ViewHolders.TweetViewHolder;
 import com.twitter.myapplication.WritingActivities.WriteMentionActivity;
+import com.twitter.myapplication.WritingActivities.WriteQuoteActivity;
 import com.twitter.myapplication.WritingActivities.WriteTweetActivity;
 
 public class DefaultActivity extends AppCompatActivity implements StandardActivityFormat, TweetViewHolder.OnClickListener {
     private boolean doubleBackToExitPressedOnce = false;
+
+    private Timeline timeline;
+
+    private TimelineAdapter timelineAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,22 @@ public class DefaultActivity extends AppCompatActivity implements StandardActivi
         setContentView(R.layout.activity_default);
 
         initializeUIComponents();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(timeline != null && timeline.size() > 0) {
+            loadTimeline(timeline, timelineAdapter);
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timeline = null;
+        timelineAdapter = null;
     }
 
     @Override
@@ -46,7 +69,7 @@ public class DefaultActivity extends AppCompatActivity implements StandardActivi
 
         setTweetButton(tweetButton);
         Timeline init = new Timeline();
-        TimelineAdapter timelineAdapter = new TimelineAdapter(init, this);
+        this.timelineAdapter = new TimelineAdapter(init, this);
         setTimelineRecyclerView(timelineRecyclerView, timelineAdapter);
         setTimeLineSwipeRefresh(timelineSwipeRefresh, timelineAdapter);
 
@@ -75,6 +98,8 @@ public class DefaultActivity extends AppCompatActivity implements StandardActivi
                     100,
                     result -> {
                         runOnUiThread(()->{
+                            this.timeline = result;
+                            Log.d("Timeline", "Timeline size: " + result.size());
                             loadTimeline(result, timelineAdapter);
                             timelineSwipeRefresh.setRefreshing(false);
                         });
@@ -108,18 +133,12 @@ public class DefaultActivity extends AppCompatActivity implements StandardActivi
         AndroidUtils.gotoActivity(this, WriteMentionActivity.class,  bundle);
     }
 
-    @Override
-    public void onFavButtonClicked() {
-
-    }
-
-    @Override
-    public void onRetweetButtonClicked() {
-
-    }
 
     @Override
     public void onQuoteButtonClicked(Tweet parentTweet) {
-
+        Bundle bundle = new Bundle();
+        bundle.putLong("parent_tweet_id", parentTweet.getTweetId());
+        bundle.putString("parent_username", parentTweet.getSender().getUsername());
+        AndroidUtils.gotoActivity(this, WriteQuoteActivity.class, bundle);
     }
 }

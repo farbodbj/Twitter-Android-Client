@@ -117,7 +117,7 @@
 
         <android.widget.Button
             android:id="@+id/sign_up_complete"
-            style="@style/startup_button"
+            style="@style/default_button_style"
             android:text="@string/sign_up_complete_button" />
 
         <com.google.android.material.textview.MaterialTextView

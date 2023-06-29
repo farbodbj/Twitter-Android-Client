@@ -2,6 +2,7 @@ package com.twitter.myapplication.WritingActivities;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -15,7 +16,6 @@ import com.twitter.myapplication.R;
 import java.time.LocalDateTime;
 
 public class WriteTweetActivity extends BaseWritingActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,5 +54,24 @@ public class WriteTweetActivity extends BaseWritingActivity {
                         //Error handling logic
                     }
                 );
+    }
+
+    //override onDestroy, onStop and onPause methods and add a log message to them
+    @Override
+    protected void onDestroy() {
+        Log.d("Writing activity", "Writing activity on destroy called");
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d("Writing activity", "Writing activity on stop called");
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d("Writing activity", "Writing activity on pause called");
+        super.onPause();
     }
 }

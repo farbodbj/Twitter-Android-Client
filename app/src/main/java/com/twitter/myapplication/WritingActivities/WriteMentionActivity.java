@@ -35,7 +35,7 @@ public class WriteMentionActivity extends BaseWritingActivity {
 
     @Override
     protected void setTextInputLayout(TextInputLayout textInputLayout) {
-        textInputLayout.setHint(getString(R.string.mention_field_hint) +  getIntent().getExtras().getString("parent_username"));
+        textInputLayout.setHint(getString(R.string.mention_field_hint, getIntent().getExtras().getString("parent_username")));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class WriteMentionActivity extends BaseWritingActivity {
                     });
                 },
                 error -> {
-
+                    //Error handling logic
                 });
     }
 }

@@ -5,6 +5,11 @@
     <string name="pick_date_button">birthdate</string>
     <string name="sign_up_complete_button">complete sign up</string>
     <string name="tweet_button">tweet</string>
+    <string name="follow_button">follow</string>
+    <string name="unfollow_button">unfollow</string>
+    <string name="edit_profile_button">edit profile</string>
+    <string name="tweet_sender_username_field">\@%1$s</string>
+
 
     <string name="username_or_email_field_hint"><font size="30">username or email</font></string>
     <string name="password_field_hint"><font size="30">password</font></string>
@@ -13,7 +18,8 @@
     <string name="email_field_hint"><font size="30">example@example.com</font></string>
     <string name="username_field_hint"><font size="30">@username</font></string>
     <string name="tweet_field_hint">what\'s happening?</string>
-    <string name="mention_field_hint">Replying to @</string>
+    <string name="mention_field_hint">Replying to \@%1$s</string>
+    <string name="quote_field_hint">Quoting from \@%1$s</string>
 
     <string name="sign_up_page">sign up</string>
     <string name="sign_in_page">sign in</string>
@@ -35,6 +41,9 @@
     <string name="tweet_failed">sending tweet failed!</string>
 
     <string name="test_tweet_text">Welcome to my Twitter page! I\'m currently learning and exploring the fascinating world of Android Development. Having fun creating a RecyclerView to show different tweets. It\'s intriguing how you can bring your creative ideas to life with code. Stay tuned for more updates! #AndroidDev</string>
+
+    <string name="follower_count"><b>%1$d</b> followers</string>
+    <string name="following_count"><b>%1$d</b> followings</string>
 
 
 </resources>

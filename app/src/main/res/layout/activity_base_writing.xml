@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:text="@string/tweet_button"
             android:layout_margin="@dimen/margin_m"
-            style="@style/startup_button"
+            style="@style/default_button_style"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

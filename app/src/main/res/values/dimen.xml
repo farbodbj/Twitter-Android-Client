@@ -7,17 +7,24 @@
     <dimen name="margin_l">24dp</dimen>
     <dimen name="margin_m">16dp</dimen>
     <dimen name="margin_s">8dp</dimen>
-    <dimen name="profile_picture_stroke">3dp</dimen>
-
+    <dimen name="margin_xs">4dp</dimen>
+    <dimen name="profile_picture_stroke">1dp</dimen>
 
     <dimen name="button_icon_height">32dp</dimen>
     <dimen name="button_icon_width">32dp</dimen>
     <dimen name="button_icon_padding">12dp</dimen>
     <dimen name="button_width">250dp</dimen>
     <dimen name="spinner_max_width">150dp</dimen>
+    <dimen name="biography_text_view_max_width">250dp</dimen>
     <dimen name="tab_height">54dp</dimen>
+
+
     <dimen name="profile_picture_height">48dp</dimen>
     <dimen name="profile_picture_width">48dp</dimen>
+
+    <dimen name="max_profile_picture_height">64dp</dimen>
+    <dimen name="max_profile_picture_width">64dp</dimen>
+    <dimen name="header_picture_height">150dp</dimen>
     <dimen name="small_profile_picture_height">32dp</dimen>
     <dimen name="small_profile_picture_width">32dp</dimen>
 
@@ -32,7 +39,9 @@
     <dimen name="corner_radius_bottom_start">12dp</dimen>
     <dimen name="corner_radius_bottom_end">12dp</dimen>
 
-    <dimen name="button_textSize">20sp</dimen>
+    <dimen name="button_textSize_s">12sp</dimen>
+    <dimen name="button_textSize_m">16sp</dimen>
+    <dimen name="button_textSize_l">20sp</dimen>
     <dimen name="hint_textSize">30</dimen>
     <dimen name="tweet_textSize">14sp</dimen>
     <dimen name="quoted_tweet_textSizes">12sp</dimen>
