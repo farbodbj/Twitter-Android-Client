@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -6,12 +6,10 @@
         android:id="@+id/attachment_image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop" />
+        android:layout_margin="@dimen/margin_s"
+        android:maxHeight="300dp"
+        android:maxWidth="300dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter" />
 
-    <VideoView
-        android:id="@+id/attachment_video_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

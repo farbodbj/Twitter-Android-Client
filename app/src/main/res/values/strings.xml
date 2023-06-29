@@ -13,7 +13,7 @@
     <string name="email_field_hint"><font size="30">example@example.com</font></string>
     <string name="username_field_hint"><font size="30">@username</font></string>
     <string name="tweet_field_hint">what\'s happening?</string>
-    <string name="mention_field_hint">Replying to </string>
+    <string name="mention_field_hint">Replying to @</string>
 
     <string name="sign_up_page">sign up</string>
     <string name="sign_in_page">sign in</string>

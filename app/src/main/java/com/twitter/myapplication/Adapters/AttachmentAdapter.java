@@ -1,43 +1,24 @@
 package com.twitter.myapplication.Adapters;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
+
 import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.twitter.common.Models.Messages.Visuals.Image;
-import com.twitter.common.Models.Messages.Visuals.Video;
 import com.twitter.common.Models.Messages.Visuals.Visual;
 import com.twitter.myapplication.R;
-import com.twitter.myapplication.Utils.AndroidUtils;
 import com.twitter.myapplication.ViewHolders.AttachmentViewHolder;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder> {
-    private List<Visual> attachments;
+    private List<Uri> attachmentUris;
 
-
-
-    public AttachmentAdapter(List<Visual> attachments) {
-        this.attachments = attachments;
+    public AttachmentAdapter(List<Uri> attachmentUris) {
+        this.attachmentUris = attachmentUris;
     }
 
     @NonNull
@@ -47,19 +28,19 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentViewHolder
         return new AttachmentViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull AttachmentViewHolder holder, int position) {
-        Visual attachment = attachments.get(position);
-
-
+        Uri attachment = attachmentUris.get(position);
+        try {
+            holder.bind(attachment);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return attachments.size();
+        return attachmentUris.size();
     }
-
-
-
-
 }

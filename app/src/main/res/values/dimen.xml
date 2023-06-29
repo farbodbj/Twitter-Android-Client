@@ -26,10 +26,11 @@
     <dimen name="button_padding_end">32dp</dimen>
     <dimen name="button_padding_start">32dp</dimen>
 
-    <dimen name="text_field_corner_radius_top_start">12dp</dimen>
-    <dimen name="text_field_corner_radius_top_end">12dp</dimen>
-    <dimen name="text_field_corner_radius_bottom_start">12dp</dimen>
-    <dimen name="text_field_corner_radius_bottom_end">12dp</dimen>
+    <dimen name="default_corner_radius">12dp</dimen>
+    <dimen name="corner_radius_top_start">12dp</dimen>
+    <dimen name="corner_radius_top_end">12dp</dimen>
+    <dimen name="corner_radius_bottom_start">12dp</dimen>
+    <dimen name="corner_radius_bottom_end">12dp</dimen>
 
     <dimen name="button_textSize">20sp</dimen>
     <dimen name="hint_textSize">30</dimen>

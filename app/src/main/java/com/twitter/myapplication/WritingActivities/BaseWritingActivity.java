@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.twitter.common.Models.Messages.Textuals.Tweet;
 import com.twitter.common.Models.Messages.Visuals.Image;
 import com.twitter.common.Models.Messages.Visuals.Video;
@@ -30,7 +31,8 @@ import com.twitter.myapplication.StandardFormats.StandardActivityFormat;
 import com.twitter.myapplication.Utils.AndroidUtils;
 
 public abstract class BaseWritingActivity extends AppCompatActivity implements StandardActivityFormat {
-    protected Tweet tweet;
+    protected final static int SEND_TWEET_RESULT_TOAST_DURATION = 2500;
+    protected Tweet parentTweet;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,20 +45,23 @@ public abstract class BaseWritingActivity extends AppCompatActivity implements S
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        tweet = null;
+        parentTweet = null;
     }
 
+    @Override
     public void initializeUIComponents() {
         ImageButton backButton = findViewById(R.id.back_button);
         ImageButton chooseAttachments = findViewById(R.id.select_attachments);
         Button sendButton = findViewById(R.id.tweet_button);
         CircularProgressIndicator progressIndicator = findViewById(R.id.tweet_characters);
+        TextInputLayout etInputLayout = findViewById(R.id.etTweetLayout);
         TextInputEditText etInput = findViewById(R.id.etTweet);
 
         setBackButton(backButton);
         setProgressIndicator(progressIndicator);
-        setInputEditText(etInput, progressIndicator);
-        setChooseAttachments(chooseAttachments);
+        setTextInputLayout(etInputLayout);
+        setInputEditText(etInput, progressIndicator, parentTweet);
+        setChooseAttachments(chooseAttachments, parentTweet);
         setSendButton(sendButton);
     }
 
@@ -64,11 +69,11 @@ public abstract class BaseWritingActivity extends AppCompatActivity implements S
         backButton.setOnClickListener(view -> AndroidUtils.gotoActivity(this, DefaultActivity.class, null));
     }
 
-    protected void setChooseAttachments(ImageButton chooseAttachments) {
+    protected void setChooseAttachments(ImageButton chooseAttachments, Tweet currentTweet) {
         ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia =
                 registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(Tweet.MAX_ATTACHMENT_COUNT), uris -> {
                     for (Uri uri : uris) {
-                        processUri(uri);
+                        setAttachments(currentTweet, uri);
                     }
 
                     if (!uris.isEmpty()) {
@@ -82,17 +87,18 @@ public abstract class BaseWritingActivity extends AppCompatActivity implements S
     }
 
     protected void setSendButton(Button sendButton) {
-        sendButton.setOnClickListener(v-> onSendButtonClick());
+        sendButton.setOnClickListener(v -> onSendButtonClick());
     }
 
     protected abstract void onSendButtonClick();
 
-    protected void setInputEditText(TextInputEditText etInput, CircularProgressIndicator progressIndicator) {
+    protected void setInputEditText(TextInputEditText etInput, CircularProgressIndicator progressIndicator, Tweet currentTweet) {
+        setInputEditTextFilters(etInput);
         etInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
                 setIndicatorProgress(progressIndicator, editable.length());
-                tweet.setText(editable.toString());
+                currentTweet.setText(editable.toString());
             }
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -114,8 +120,22 @@ public abstract class BaseWritingActivity extends AppCompatActivity implements S
         progressIndicator.setProgress(progress);
     }
 
+    protected void setTextInputLayout(TextInputLayout textInputLayout) {
+        textInputLayout.setHint(getString(R.string.tweet_field_hint));
+    }
 
-    protected void processUri(Uri uri) {
+
+    protected void tweetSendResultCallback(Boolean result) {
+        if(result){
+            AndroidUtils.showLongToastMessage(
+                    this,
+                    (result) ? getString(R.string.tweet_successful) : (getString(R.string.tweet_failed)),
+                    SEND_TWEET_RESULT_TOAST_DURATION);
+            AndroidUtils.gotoActivity(this, DefaultActivity.class, null);
+        }
+    }
+
+    protected void setAttachments(Tweet currentTweet, Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
 
@@ -128,9 +148,9 @@ public abstract class BaseWritingActivity extends AppCompatActivity implements S
         att.setFileFormat(extension);
 
         if (att instanceof Image) {
-            safe(() -> tweet.addImageAttachment((Image) att));
+            safe(() -> currentTweet.addImageAttachment((Image) att));
         } else {
-            safe(() -> tweet.addVideoAttachment((Video) att));
+            safe(() -> currentTweet.addVideoAttachment((Video) att));
         }
     }
 

@@ -1,6 +1,5 @@
 package com.twitter.myapplication.WritingActivities;
 
-import static com.twitter.common.Utils.SafeCall.safe;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -11,19 +10,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.twitter.client.Controllers.UserActionsManager;
 import com.twitter.client.Session;
 import com.twitter.common.Models.Messages.Textuals.Tweet;
-import com.twitter.myapplication.DefaultActivity;
 import com.twitter.myapplication.R;
-import com.twitter.myapplication.StandardFormats.StandardActivityFormat;
-import com.twitter.myapplication.Utils.AndroidUtils;
 
 import java.time.LocalDateTime;
 
 public class WriteTweetActivity extends BaseWritingActivity {
-    private final static int SEND_TWEET_RESULT_TOAST_DURATION = 2500;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        tweet = new Tweet();
+        parentTweet = new Tweet();
         super.onCreate(savedInstanceState);
     }
 
@@ -37,28 +33,24 @@ public class WriteTweetActivity extends BaseWritingActivity {
 
         setBackButton(backButton);
         setProgressIndicator(tweetCharIndicator);
-        setInputEditText(etTweet, tweetCharIndicator);
-        setChooseAttachments(chooseAttachments);
+        setInputEditText(etTweet, tweetCharIndicator, parentTweet);
+        setChooseAttachments(chooseAttachments, parentTweet);
         setSendButton(tweetButton);
     }
 
 
     @Override
     protected void onSendButtonClick() {
-            tweet.setSender(Session.getInstance().getSessionUser());
-            tweet.setSentAt(LocalDateTime.now());
+            parentTweet.setSender(Session.getInstance().getSessionUser());
+            parentTweet.setSentAt(LocalDateTime.now());
             UserActionsManager.getInstance()
-                .tweet(tweet,
-                    result ->
-                        runOnUiThread(
-                            ()-> {
-                                AndroidUtils.showLongToastMessage(
-                                        WriteTweetActivity.this,
-                                        (result) ? getString(R.string.tweet_successful) : (getString(R.string.tweet_failed)),
-                                        SEND_TWEET_RESULT_TOAST_DURATION);
-                                AndroidUtils.gotoActivity(WriteTweetActivity.this, DefaultActivity.class, null);
-                            }),
-                    error -> {
+                .tweet(parentTweet,
+                    result -> {
+                        runOnUiThread(()-> {
+                            tweetSendResultCallback(result);
+                        });
+                    },
+                error -> {
                         //Error handling logic
                     }
                 );

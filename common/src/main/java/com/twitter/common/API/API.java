@@ -14,14 +14,12 @@ public class API {
 
     public static final String TWEET_ENDPOINT = "/tweet";
     public static final String TWEET = TWEET_ENDPOINT + "/new"; //creates a new tweet
+
     public static final String QUOTE = TWEET_ENDPOINT + "/quote"; //quotes a tweet and creates a new one
     public static final String RETWEET = TWEET_ENDPOINT + "/retweet"; //retweets a tweet
     public static final String MENTION = TWEET_ENDPOINT + "/mention"; //mentions a user in a tweet
     public static final String LIKE = TWEET_ENDPOINT + "/like"; //likes a tweet
     public static final String UNLIKE = TWEET_ENDPOINT + "/unlike"; //unlikes a tweet
-
-    public static final String MESSAGE = "/message";
-    public static final String DIRECT = "/message";
 
 
     public static final String USER_ENDPOINT = "/user";
@@ -35,6 +33,14 @@ public class API {
     public static final String SET_BIO = USER_ENDPOINT + "/set-bio"; //updates user's bio
     public static final String SET_HEADER = USER_ENDPOINT + "/set-header"; //updates user's header
     public static final String SET_USERNAME = USER_ENDPOINT + "/set-username"; //updates user's username
+    public static final String GET_FOLLOWERS = USER_ENDPOINT + "/get-followers";
+    public static final String GET_FOLLOWINGS = USER_ENDPOINT + "/get-followings";
+
+    public final static String MESSAGE_ENDPOINT = "/message";
+    public final static String SEND_TEXT_MESSAGE = MESSAGE_ENDPOINT + "/send-text";
+    public final static String SEND_IMAGE =  MESSAGE_ENDPOINT + "/send-image";
+    public final static String SEND_VIDEO =  MESSAGE_ENDPOINT + "/send-video";
+    public final static String UPDATE_CHAT =  MESSAGE_ENDPOINT + "/update-chat";
 
     public static final String CHECK_EXISTENCE_ENDPOINT = "/check-existence";
     public static final String CHECK_USERNAME = CHECK_EXISTENCE_ENDPOINT + "/username"; //checks for duplicate email

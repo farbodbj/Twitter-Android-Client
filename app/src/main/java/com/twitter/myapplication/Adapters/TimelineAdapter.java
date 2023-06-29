@@ -12,29 +12,28 @@ import com.twitter.common.Models.Timeline;
 import com.twitter.myapplication.R;
 import com.twitter.myapplication.ViewHolders.TweetViewHolder;
 
-import java.util.Collection;
 import java.util.List;
 
 public class TimelineAdapter extends RecyclerView.Adapter<TweetViewHolder> {
 
+    TweetViewHolder.OnClickListener onItemClickedListener;
     private Timeline timeline;
 
-    public TimelineAdapter(Timeline timeline) {
+    public TimelineAdapter(Timeline timeline, TweetViewHolder.OnClickListener onItemClickedListener) {
         this.timeline = timeline;
+        this.onItemClickedListener = onItemClickedListener;
     }
 
     @NonNull
     @Override
     public TweetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tweet_item_layout, parent, false);
-        return new TweetViewHolder(view);
+        return new TweetViewHolder(view, onItemClickedListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TweetViewHolder holder, int position) {
         Tweet current = timeline.get(position);
-
-
         switch (current.getClass().getSimpleName()) {
             case "Tweet":
                 holder.bind(current);
@@ -51,8 +50,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TweetViewHolder> {
         this.timeline = timeline;
     }
 
-    public void addToTimeline(List<Tweet> tweets) {
-        timeline.addAll(tweets);
+    public boolean addToTimeline(List<Tweet> tweets) {
+        return timeline.addAll(tweets);
     }
 }
 

@@ -200,7 +200,7 @@ public class UserActionsManager {
         followParams.put("followed", String.valueOf(followedId));
         followParams.put("follower", String.valueOf(followerId));
 
-        updateStatus(APIEndpoint, followParams, Integer.class, onSuccess, onException);
+        updateStatus(APIEndpoint, followParams, HashMap.class, onSuccess, onException);
     }
 
     private void updateBlockStatus(String APIEndpoint, int blockerId, int blockedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
@@ -208,15 +208,15 @@ public class UserActionsManager {
         blockParams.put("blocked", String.valueOf(blockedId));
         blockParams.put("blocker", String.valueOf(blockerId));
 
-        updateStatus(APIEndpoint, blockParams, Integer.class, onSuccess, onException);
+        updateStatus(APIEndpoint, blockParams, HashMap.class, onSuccess, onException);
     }
 
     private void updateLikeStatus(String APIEndpoint, int likerId, long tweetId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
         Map<String, String> likeParams = new HashMap<>();
-        likeParams.put("liker", String.valueOf(likerId));
+        likeParams.put("userId", String.valueOf(likerId));
         likeParams.put("tweetId", String.valueOf(tweetId));
 
-        updateStatus(APIEndpoint, likeParams, Integer.class, onSuccess, onException);
+        updateStatus(APIEndpoint, likeParams, HashMap.class, onSuccess, onException);
 
     }
 
@@ -243,7 +243,7 @@ public class UserActionsManager {
                         } catch (IllegalStateException ignore) {}
                     }
 
-                    onSuccess.onSuccess(responseModel.get() == SUCCESS);
+                    onSuccess.onSuccess(responseModel.getStatus() == SUCCESS);
 
                 });
     }
@@ -280,7 +280,7 @@ public class UserActionsManager {
                         } catch (IllegalStateException ignore) {}
 
                     }
-                    onSuccess.onSuccess((Integer) responseModel.get() == SUCCESS);
+                    onSuccess.onSuccess( responseModel.getStatus() == SUCCESS);
                 });
     }
 

@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.twitter.common.Models.User;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,9 +38,11 @@ final public class AndroidUtils {
                 .commit();
     }
 
-    public static void gotoActivity(FragmentActivity fragmentActivity, Class<? extends Activity> destinationActivity, Bundle bundle) {
-        Intent intent = new Intent(fragmentActivity, destinationActivity);
-        fragmentActivity.startActivity(intent, bundle);
+    public static void gotoActivity(Context context, Class<? extends Activity> destinationActivity, Bundle bundle) {
+        Intent intent = new Intent(context, destinationActivity);
+        if(bundle != null)
+            intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
     public static void runWithDelay(Runnable runnable, long timeMilis) {
@@ -86,24 +90,6 @@ final public class AndroidUtils {
         }
 
         return null;
-    }
-
-    public static File cacheFileBytes(byte[] fileBytes, String fileName, String fileFormat, Context context) {
-        File tempFile = new File(context.getCacheDir(), fileName);
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            fos.write(fileBytes);
-        } catch (IOException e) {
-            //Error handling logic
-            return null;
-        }
-        return tempFile;
-    }
-
-    public static void playVideoFromUri(Uri videoUri, Context context) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(videoUri, "video/mp4");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        context.startActivity(intent);
     }
 
 }

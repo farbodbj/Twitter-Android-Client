@@ -1,5 +1,7 @@
 package com.twitter.myapplication.ViewHolders;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -17,8 +19,18 @@ import com.twitter.common.Models.Messages.Textuals.Tweet;
 import com.twitter.common.Models.User;
 import com.twitter.myapplication.Adapters.AttachmentAdapter;
 import com.twitter.myapplication.R;
+import com.twitter.myapplication.Utils.StorageManager.StorageHandler;
 
 public class TweetViewHolder extends RecyclerView.ViewHolder {
+    public interface OnClickListener {
+        void onMentionButtonClicked(Tweet parentTweet);
+        void onFavButtonClicked();
+        void onRetweetButtonClicked();
+        void onQuoteButtonClicked(Tweet parentTweet);
+    }
+
+    OnClickListener onClickListener;
+
     private Tweet tweet;
     ShapeableImageView profilePicture;
     MaterialTextView authorDisplayName;
@@ -36,8 +48,9 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
     ImageButton favButton;
     ImageButton quoteButton;
 
-    public TweetViewHolder(@NonNull View itemView) {
+    public TweetViewHolder(@NonNull View itemView, OnClickListener onClickListener) {
         super(itemView);
+        this.onClickListener = onClickListener;
         initializeUiComponents();
     }
 
@@ -59,10 +72,12 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         quoteButton = itemView.findViewById(R.id.quote_button);
 
 
-        setCommentButton();
+        setMentionButton();
         setFavButton();
         setRetweetButton();
         setQuoteButton();
+
+
     }
 
     public void bind(Tweet tweet) {
@@ -78,23 +93,19 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         setTweetAttachmentsView();
     }
 
-    private void setCommentButton(){
-
+    private void setMentionButton(){
+        mentionButton.setOnClickListener(v -> onClickListener.onMentionButtonClicked(tweet));
     }
 
     private void setRetweetButton() {
         retweetButton.setOnClickListener(v ->
                 UserActionsManager.getInstance().retweet(
                         createRetweet(),
-                            result -> {
-                                if (result) {
-                                    retweetButton.setColorFilter(
-                                            ContextCompat.getColor(
-                                                    v.getContext(), R.color.success_green
-                                            )
-                                    );
-                                }
-                            },
+                        result -> {
+                            if (result) {
+                                retweetButton.setColorFilter(ContextCompat.getColor(v.getContext(), R.color.success_green));
+                            }
+                        },
                         error -> {
                             //Error handling logic
                         }
@@ -113,12 +124,13 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
                         tweet.getTweetId(),
                         result -> {
                             if (result) {
-                                favButton.setBackgroundColor(
-                                        ContextCompat.getColor(v.getContext(), R.color.failure_red)
-                                );
+                                favButton.setImageResource(R.drawable.like_selected);
                             }
                         },
-                        error -> {}
+                        error -> {
+                            System.out.println("hi");
+                            //Error handling logic
+                        }
                 );
             } else {
                 // Perform the unlike action
@@ -127,12 +139,13 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
                         tweet.getTweetId(),
                         result -> {
                             if (result) {
-                                favButton.setBackgroundColor(
-                                        ContextCompat.getColor(v.getContext(), R.color.transparent)
-                                );
+                                favButton.setImageResource(R.drawable.like);
                             }
                         },
-                        error -> {}
+                        error -> {
+                            System.out.println("hi");
+                            //Error handling logic
+                        }
                 );
             }
         });
@@ -140,7 +153,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
 
 
     private void setQuoteButton() {
-
+        quoteButton.setOnClickListener(v->onClickListener.onQuoteButtonClicked(tweet));
     }
 
 
@@ -155,8 +168,15 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setTweetAttachmentsView() {
-        tweetAttachmentsView.setLayoutManager(new GridLayoutManager(itemView.getContext(), 2));
-        tweetAttachmentsView.setAdapter(new AttachmentAdapter(tweet.getAttachments()));
+        tweetAttachmentsView.setVisibility(View.VISIBLE);
+        AttachmentAdapter attachmentAdapter = new AttachmentAdapter(
+                StorageHandler.saveTweetAttachments(
+                        itemView.getContext(),
+                        tweet
+                ));
+        tweetAttachmentsView.setLayoutManager(new GridLayoutManager(tweetAttachmentsView.getContext(), 2));
+        tweetAttachmentsView.setAdapter(attachmentAdapter);
+        attachmentAdapter.notifyDataSetChanged();
     }
 
 }

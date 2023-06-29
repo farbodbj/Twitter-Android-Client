@@ -8,7 +8,7 @@ public class WriteQuoteActivity extends BaseWritingActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        tweet = new Mention();
+        parentTweet = new Mention();
         super.onCreate(savedInstanceState);
     }
     @Override

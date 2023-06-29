@@ -70,11 +70,13 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tweet_attachments"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                app:spanCount="2"
                 android:paddingTop="@dimen/margin_m"
+                android:paddingBottom="@dimen/margin_m"
                 android:paddingEnd="@dimen/margin_m"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -142,7 +144,7 @@
     </RelativeLayout>
 
     <include layout="@layout/horizontal_line_break"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:layout_width="match_parent"/>
 
 </LinearLayout>

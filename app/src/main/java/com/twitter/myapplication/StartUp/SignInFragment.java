@@ -23,7 +23,7 @@ import com.twitter.myapplication.DefaultActivity;
 import com.twitter.myapplication.R;
 import com.twitter.myapplication.StandardFormats.StandardFragmentFormat;
 import com.twitter.myapplication.Utils.AndroidUtils;
-import com.twitter.myapplication.Utils.StorageManager.InternalStorageManager;
+import com.twitter.myapplication.Utils.StorageManager.StorageHandler;
 
 public class SignInFragment extends Fragment implements StandardFragmentFormat {
 
@@ -52,6 +52,7 @@ public class SignInFragment extends Fragment implements StandardFragmentFormat {
     private void checkFormValidation(TextInputEditText etUsername, TextInputEditText etPassword) {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
+
         //the entered value in username field can be either a username or an email
         if (isPasswordValid(password) && (isEmailValid(username) || isUsernameValid(username))) {
             signInListener.onSignInButtonClicked(username, password);
@@ -87,10 +88,7 @@ public class SignInFragment extends Fragment implements StandardFragmentFormat {
                         .setVisibility(View.VISIBLE);
             });
 
-            InternalStorageManager.writeObjectToFile(
-                    getActivity().getApplicationContext(),
-                    user,
-                    "current_user.bin");
+            StorageHandler.saveCurrentUserData(getActivity().getApplicationContext(), user);
 
 
             AndroidUtils.gotoActivity(getActivity(), DefaultActivity.class, null);

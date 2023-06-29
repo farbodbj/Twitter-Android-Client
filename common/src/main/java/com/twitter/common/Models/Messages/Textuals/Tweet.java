@@ -22,7 +22,7 @@ public class Tweet extends Textual {
     public final static double ASPECT_RATIO = (double) MAX_IMG_WIDTH / MAX_IMG_HEIGHT;
     private long tweetId;
     private String text;
-    private final List<Visual> attachments = new LinkedList<>();
+    private List<Visual> attachments = new LinkedList<>();
     private int favCount;
     private int retweetCount;
     private int mentionCount;
@@ -67,6 +67,10 @@ public class Tweet extends Textual {
 
     public int getMentionCount() {
         return mentionCount;
+    }
+
+    public void setAttachments(List<Visual> attachments) {
+        this.attachments = attachments;
     }
 
     public void addImageAttachment(String path) throws AttachmentError {

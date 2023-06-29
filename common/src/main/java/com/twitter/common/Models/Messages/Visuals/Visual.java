@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.*;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public abstract class Visual implements Serializable {
+    public final static HashSet<String> ALLOWED_VIDEO_FORMAT_EXTENSIONS = new HashSet<>(Arrays.asList("mp4", "gif"));
+    public final static HashSet<String> ALLOWED_IMAGE_FORMAT_EXTENSIONS = new HashSet<>(Arrays.asList("png", "jpg", "jpeg"));
     private byte[] fileBytes;
     private String fileFormat;
     private transient Path pathInStorage;
