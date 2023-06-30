@@ -159,11 +159,11 @@ public class UserActionsManager {
         postRequest(API.MENTION, mention, onSuccess, onException);
     }
 
-    public void block(int blockerId, int blockedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) throws HandledException {
+    public void block(int blockerId, int blockedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
         updateBlockStatus(API.BLOCK, blockerId, blockedId, onSuccess, onException);
     }
 
-    public void unblock(int blockerId, int blockedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) throws HandledException {
+    public void unblock(int blockerId, int blockedId, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
         updateBlockStatus(API.UNBLOCK, blockerId, blockedId, onSuccess, onException);
     }
 
@@ -188,8 +188,48 @@ public class UserActionsManager {
                 headers,
                 Timeline.class,
                 error->{
-
+                    //Error handling logic
                 },
+                responseModel -> onSuccess.onSuccess(responseModel.get())
+        );
+    }
+
+    public void getUser(int userId, SuccessCallback<User> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
+
+        Map<String, String> query = new HashMap<>();
+        query.put("userId", String.valueOf(userId));
+
+        ClientHttpUtils.getSerialized(
+                API.GET_PROFILE,
+                query,
+                headers,
+                User.class,
+                onException::onError,
+                responseModel -> {
+                    onSuccess.onSuccess(responseModel.get());
+                });
+    }
+    public void getFollowingsCount(int userId, SuccessCallback<Integer> onSuccess, ErrorCallback onException) {
+        getCount(API.GET_FOLLOWINGS_COUNT, userId, onSuccess, onException);
+    }
+
+    public void getFollowersCount(int userId, SuccessCallback<Integer> onSuccess, ErrorCallback onException) {
+        getCount(API.GET_FOLLOWERS_COUNT, userId, onSuccess, onException);
+    }
+
+    private void getCount(String apiEndpoint, int userId, SuccessCallback<Integer> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
+
+        Map<String, String> query = new HashMap<>();
+        query.put("userId", String.valueOf(userId));
+
+        ClientHttpUtils.get(
+                apiEndpoint,
+                query,
+                headers,
+                Integer.class,
+                onException::onError,
                 responseModel -> onSuccess.onSuccess(responseModel.get())
         );
     }
@@ -264,6 +304,12 @@ public class UserActionsManager {
                         try {
                             onException.onError(
                                 switch(responseModel.getStatus()) {
+                                    case DUPLICATE_RECORD ->
+                                        new DuplicateRecordException("duplicate record");
+
+                                    case NOT_FOUND ->
+                                        new NotFoundException();
+
                                     case UNKNOWN_ERROR ->
                                             new InternalServerError();
 

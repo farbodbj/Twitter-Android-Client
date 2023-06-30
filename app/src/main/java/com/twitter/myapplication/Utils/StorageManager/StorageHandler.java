@@ -48,6 +48,30 @@ public class StorageHandler {
         return attachmentUris;
     }
 
+    public static Uri saveTweetProfilePicture(Context context, Tweet tweet) {
+        return saveProfilePicture(context, tweet.getSender());
+    }
+
+    public static Uri saveProfilePicture(Context context, User user) {
+        if(user.getProfilePic() != null) {
+            return StorageAccessor.saveToFiles(
+                    context,
+                    user.getUserId() + "_PP",
+                    user.getProfilePic());
+        }
+        return null;
+    }
+
+    public static Uri saveHeaderPicture(Context context, User user) {
+        if(user.getHeaderPic() != null) {
+            return StorageAccessor.saveToFiles(
+                    context,
+                    user.getUserId() + "_H",
+                    user.getHeaderPic());
+        }
+        return null;
+    }
+
     public static void saveTimeline(Context context, Timeline timeline) {
         StorageAccessor.saveObjectToCache(context, CURRENT_TIMELINE_FILE_NAME, timeline);
     }

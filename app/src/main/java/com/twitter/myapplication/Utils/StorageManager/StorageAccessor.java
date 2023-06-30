@@ -19,7 +19,7 @@ public class StorageAccessor {
     private final static String OBJECT_FILE_EXTENSION = ".bin";
 
     public static Uri saveToCache(Context context, String filename, String fileFormat, Visual visual) {
-        File file = new File(context.getCacheDir(), (filename + "." + fileFormat));
+        File file = new File(context.getCacheDir(), (filename + (fileFormat.startsWith(".")?(""):(".")) + fileFormat));
         try {
             writeFile(file, visual.getFileBytes());
         } catch (IOException e) {
@@ -65,7 +65,8 @@ public class StorageAccessor {
 
 
     public static Uri saveToFiles(Context context,  String filename, Visual visual) {
-        File file = new File(context.getFilesDir(), (filename + "." + visual.getFileFormat()));
+        String format = visual.getFileFormat();
+        File file = new File(context.getFilesDir(), (filename + (format.startsWith(".")?(""):(".") )) + format);
         if(!file.exists()){
             try {
                 writeFile(file, visual.getFileBytes());

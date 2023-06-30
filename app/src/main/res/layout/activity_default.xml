@@ -32,28 +32,13 @@
         android:layout_below="@id/home_page_header"/>
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/default_activity_fragment_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/home_page_header"
         android:layout_above="@+id/tabs">
 
-        <RelativeLayout
-            android:id="@+id/rl_homepage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/timeline_swipe_refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/timeline_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_tweet_button"

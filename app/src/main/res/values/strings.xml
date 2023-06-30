@@ -8,7 +8,27 @@
     <string name="follow_button">follow</string>
     <string name="unfollow_button">unfollow</string>
     <string name="edit_profile_button">edit profile</string>
-    <string name="tweet_sender_username_field">\@%1$s</string>
+    <string name="username_field">\@%1$s</string>
+    <string name="date_joined_field">Joined %1$s %2$d</string>
+
+    <string name="block_options_title">options</string>
+    <string-array name="block_options">
+        <item>Block</item>
+        <item>Unblock</item>
+    </string-array>
+
+    <string name="block_success">user blocked successfully</string>
+    <string name="already_blocked">you have already blocked this user</string>
+
+    <string name="unblock_success">user unblocked successfully</string>
+    <string name="not_blocked">you have not blocked this user</string>
+
+    <string name="follow_success">user followed successfully</string>
+    <string name="already_followed">you are already following this user</string>
+
+    <string name="unfollow_success">user unfollowed successfully</string>
+    <string name="not_followed">you are not following this user</string>
+
 
 
     <string name="username_or_email_field_hint"><font size="30">username or email</font></string>
@@ -44,6 +64,7 @@
 
     <string name="follower_count"><b>%1$d</b> followers</string>
     <string name="following_count"><b>%1$d</b> followings</string>
+
 
 
 </resources>

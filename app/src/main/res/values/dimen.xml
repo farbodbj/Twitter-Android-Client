@@ -2,6 +2,7 @@
 <resources>
     <dimen name="twitter_logo_marginEnd">32dp</dimen>
     <dimen name="twitter_logo_marginBottom">280dp</dimen>
+    <dimen name="margin_xxxl">64dp</dimen>
     <dimen name="margin_xxl">48dp</dimen>
     <dimen name="margin_xl">36dp</dimen>
     <dimen name="margin_l">24dp</dimen>

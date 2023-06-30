@@ -1,15 +1,14 @@
 package com.twitter.myapplication.ViewHolders;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.twitter.client.Controllers.UserActionsManager;
@@ -25,6 +24,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
     public interface OnClickListener {
         void onMentionButtonClicked(Tweet parentTweet);
         void onQuoteButtonClicked(Tweet parentTweet);
+        void onUserDisplayNameClicked(User user);
     }
 
     OnClickListener onClickListener;
@@ -70,6 +70,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         quoteButton = itemView.findViewById(R.id.quote_button);
 
 
+        setAuthorDisplayName();
         setMentionButton();
         setFavButton();
         setRetweetButton();
@@ -81,16 +82,21 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
 
         //TODO: set image for profile picture
         authorDisplayName.setText(tweet.getSender().getDisplayName());
-        authorUserName.setText(itemView.getResources().getString(R.string.tweet_sender_username_field, tweet.getSender().getUsername()));
+        authorUserName.setText(itemView.getResources().getString(R.string.username_field, tweet.getSender().getUsername()));
         tweetText.setText(tweet.getText());
         mentionCount.setText(String.valueOf(tweet.getMentionCount()));
         retweetCount.setText(String.valueOf(tweet.getRetweetCount()));
         favCount.setText(String.valueOf(tweet.getFavCount()));
         setTweetAttachmentsView();
+        setTweetProfilePicture();
     }
 
     private void setMentionButton(){
         mentionButton.setOnClickListener(v -> onClickListener.onMentionButtonClicked(tweet));
+    }
+
+    private void setAuthorDisplayName() {
+        authorDisplayName.setOnClickListener(v -> onClickListener.onUserDisplayNameClicked(tweet.getSender()));
     }
 
     private void setRetweetButton() {
@@ -172,6 +178,19 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
                 ));
         tweetAttachmentsView.setAdapter(attachmentAdapter);
         attachmentAdapter.notifyDataSetChanged();
+    }
+
+    private void setTweetProfilePicture() {
+        Uri profileUri = StorageHandler.saveTweetProfilePicture(itemView.getContext(), tweet);
+        if (profileUri != null){
+            Glide
+                    .with(profilePicture.getContext())
+                    .load(profileUri)
+                    .centerCrop()
+                    .placeholder(R.drawable.profile_placeholder)
+                    .into(profilePicture);
+        }
+
     }
 
 }
