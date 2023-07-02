@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".EditProfileFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/header_picture_choice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:tint="@color/dark_shade"
+            android:src="@drawable/header_placeholder"
+            style="@style/header_picture_style"/>
+
+        <include
+            layout="@layout/horizontal_line_break"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/header_picture_choice" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile_picture_choice"
+            app:layout_constraintTop_toBottomOf="@id/header_picture_choice"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_s"
+            android:layout_marginStart="@dimen/margin_s"
+            android:tint="@color/dark_shade"
+            android:src="@drawable/profile_placeholder"
+            style="@style/profile_picture_style" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:text="@string/name_field_title"
+            app:layout_constraintBottom_toTopOf="@id/account_name_field"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_choice"
+            app:layout_constraintStart_toStartOf="parent"
+
+            style="@style/profile_edit_textView_title"/>
+
+        <EditText
+            android:id="@+id/account_name_field"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_choice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            style="@style/profile_edit_editText"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/biography_field_textView"
+            android:text="@string/biography_field_title"
+            app:layout_constraintBottom_toTopOf="@id/biography_field"
+            app:layout_constraintTop_toBottomOf="@id/account_name_field"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/profile_edit_textView_title"/>
+
+        <EditText
+            android:id="@+id/biography_field"
+            android:lines="3"
+            app:layout_constraintTop_toBottomOf="@id/account_name_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            style="@style/profile_edit_editText"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/location_field_textView"
+            android:text="@string/location_field_title"
+            app:layout_constraintBottom_toTopOf="@id/location_field"
+            app:layout_constraintTop_toBottomOf="@id/biography_field"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/profile_edit_textView_title"/>
+
+        <EditText
+            android:id="@+id/location_field"
+            app:layout_constraintTop_toBottomOf="@id/biography_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            style="@style/profile_edit_editText"/>
+
+
+        <android.widget.Button
+            android:id="@+id/submit_changes"
+            android:text="@string/submit_changes"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/default_button_style" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

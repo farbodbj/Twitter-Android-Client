@@ -18,10 +18,8 @@ import java.util.List;
 public class StorageHandler {
     private final static String USER_SESSION_FILE_NAME = "current_user";
     private final static String USER_PROFILE_PIC = USER_SESSION_FILE_NAME + "_profile_picture";
-    private final static String CURRENT_TIMELINE_FILE_NAME = "current_timeline";
     private StorageHandler(){}
 
-    //TODO: move and fix writeObjectToFile and readObjectFromFile
     public static void saveCurrentUserData(Context context, User currentUser) {
         Image profilePic = currentUser.getProfilePic();
         if(profilePic != null && profilePic.getFileBytes().length != 0) {
@@ -72,13 +70,6 @@ public class StorageHandler {
         return null;
     }
 
-    public static void saveTimeline(Context context, Timeline timeline) {
-        StorageAccessor.saveObjectToCache(context, CURRENT_TIMELINE_FILE_NAME, timeline);
-    }
-
-    public static Timeline loadTimeline(Context context) {
-        return (Timeline) StorageAccessor.readObjectFromCache(context, CURRENT_TIMELINE_FILE_NAME);
-    }
 
     private static String setTweetAttachmentName(int position, Tweet tweet) {
         return tweet.getTweetId() + "_" + position;

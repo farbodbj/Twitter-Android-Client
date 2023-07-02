@@ -24,14 +24,17 @@ public class API {
 
     public static final String USER_ENDPOINT = "/user";
     public static final String GET_PROFILE = USER_ENDPOINT + "/profile"; //returns user's profile information
-    public static final String SEARCH_TWEETS = "/search"; //searches tweets
+    public static final String SEARCH_USERS = "/search-users"; //searches users
+    public static final String SEARCH_TWEETS = "/search-tweets"; //searches tweets
     public static final String GET_TIMELINE = USER_ENDPOINT + "/timeline"; //returns user's timeline
     public static final String BLOCK = USER_ENDPOINT + "/block"; //blocks a user
     public static final String UNBLOCK = USER_ENDPOINT + "/unblock"; //unblocks a user
-    public static final String SET_PROFILE = USER_ENDPOINT + "/set"; //updates user's profile
-    public static final String SET_BIO = USER_ENDPOINT + "/set-bio"; //updates user's bio
+    public static final String SET_PROFILE_PIC = USER_ENDPOINT + "/set-profile"; //updates user's profile
     public static final String SET_HEADER = USER_ENDPOINT + "/set-header"; //updates user's header
     public static final String SET_USERNAME = USER_ENDPOINT + "/set-username"; //updates user's username
+    public static final String SET_DISPLAY_NAME = USER_ENDPOINT + "/set-display-name";
+    public static final String SET_BIO = USER_ENDPOINT + "/set-bio"; //updates user's bio
+    public static final String SET_LOCATION = USER_ENDPOINT + "/set-display-location";
     public static final String GET_FOLLOWERS = USER_ENDPOINT + "/get-followers";
     public static final String GET_FOLLOWERS_COUNT = USER_ENDPOINT + "/get-followers-count";
     public static final String GET_FOLLOWINGS = USER_ENDPOINT + "/get-followings";

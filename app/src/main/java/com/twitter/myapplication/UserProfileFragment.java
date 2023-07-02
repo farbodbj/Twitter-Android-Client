@@ -1,15 +1,11 @@
 package com.twitter.myapplication;
 
-import static com.twitter.myapplication.Utils.StorageManager.StorageHandler.saveProfilePicture;
-
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.drawable.shapes.Shape;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AlertDialogLayout;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 
@@ -28,7 +24,6 @@ import com.twitter.myapplication.Utils.AndroidUtils;
 import com.twitter.myapplication.Utils.StorageManager.StorageHandler;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class UserProfileFragment extends Fragment implements StandardFragmentFormat {
@@ -37,6 +32,8 @@ public class UserProfileFragment extends Fragment implements StandardFragmentFor
         void onUnfollowButtonClicked(UserProfileFragment userProfileFragment, User target);
         void onBlockButtonClicked(UserProfileFragment userProfileFragment, User target);
         void onUnblockButtonClicked(UserProfileFragment userProfileFragment, User target);
+        void onFollowingsCountClicked(UserProfileFragment userProfileFragment, User target);
+        void onFollowersCountClicked(UserProfileFragment userProfileFragment, User target);
         void onEditProfileButtonClicked();
     }
 
@@ -70,70 +67,33 @@ public class UserProfileFragment extends Fragment implements StandardFragmentFor
 
     @Override
     public void initializeUIComponents(@NonNull View view) {
-        ShapeableImageView profilePictureView = view.findViewById(R.id.profile_picture);
-        AppCompatImageView headerPictureView = view.findViewById(R.id.header_picture);
-        Button followButton = view.findViewById(R.id.follow_button);
-        Button unfollowButton = view.findViewById(R.id.unfollow_button);
-        Button editProfileButton = view.findViewById(R.id.edit_profile_button);
-        MaterialTextView displayNameView = view.findViewById(R.id.display_name);
-        MaterialTextView usernameView = view.findViewById(R.id.username);
-        MaterialTextView biographyView = view.findViewById(R.id.biography);
-        MaterialTextView dateJoinedView = view.findViewById(R.id.date_joined);
-        MaterialTextView followingsCountView = view.findViewById(R.id.following_count);
-        MaterialTextView View = view.findViewById(R.id.follower_count);
-        //TODO: handle follow unfollow and edit profile button
-
-
         Bundle userData = getArguments();
         if(userData != null) {
-            View.setText(getString(R.string.follower_count, userData.getInt("followers_count")));
-            followingsCountView.setText(getString(R.string.following_count, userData.getInt("followings_count")));
-            bindUserData(
-                    (User)userData.getSerializable("user"),
-                    profilePictureView,
-                    headerPictureView,
-                    displayNameView,
-                    usernameView,
-                    biographyView,
-                    dateJoinedView,
-                    followButton,
-                    unfollowButton,
-                    editProfileButton);
-        }
+            User user = (User)userData.getSerializable("user");
 
-    }
+            if(getContext() != null) {
 
-    private void bindUserData(User user,
-                              ShapeableImageView profilePictureView,
-                              ImageView headerPictureView,
-                              MaterialTextView displayNameView,
-                              MaterialTextView usernameView,
-                              MaterialTextView biographyView,
-                              MaterialTextView dateJoinedView,
-                              Button followButtonView,
-                              Button unfollowButtonView,
-                              Button editProfileButtonView
-    ) {
-        if(getContext() != null) {
-            loadProfilePicture(user, profilePictureView);
+                loadProfilePicture(user, view);
+                loadHeaderPicture(user, view);
+                setProfile(user, view);
+                setFollowingsCountView(userData, view);
+                setFollowersCountView(userData, view);
 
-            loadHeaderPicture(user, headerPictureView);
+                if(!isSelfProfile) {
+                    setFollowButton(user, view);
+                    setUnfollowButton(user, view);
 
-            setProfile(user, displayNameView, usernameView, biographyView, dateJoinedView);
+                } else {
+                    setEditProfileButton(view);
+                }
 
-
-            if(!isSelfProfile) {
-                setFollowButton(user, followButtonView);
-                setUnfollowButton(user, unfollowButtonView);
             }
-            else {
-                setEditProfileButton(editProfileButtonView);
-            }
-
         }
     }
 
-    private void loadProfilePicture(User user, ShapeableImageView profilePictureView) {
+    private void loadProfilePicture(User user, View view) {
+        ShapeableImageView profilePictureView = view.findViewById(R.id.profile_picture_choice);
+
         Uri userProfilePicUri = StorageHandler.saveProfilePicture(getContext(), user);
         if (userProfilePicUri != null) {
             Glide
@@ -145,7 +105,9 @@ public class UserProfileFragment extends Fragment implements StandardFragmentFor
         }
     }
 
-    private void loadHeaderPicture(User user, ImageView headerPictureView) {
+    private void loadHeaderPicture(User user, View view) {
+        AppCompatImageView headerPictureView = view.findViewById(R.id.header_picture_choice);
+
         Uri userHeaderPicUri = StorageHandler.saveHeaderPicture(getContext(), user);
         if(userHeaderPicUri != null) {
             Glide
@@ -157,21 +119,25 @@ public class UserProfileFragment extends Fragment implements StandardFragmentFor
         }
     }
 
-    private void setProfile(User user, MaterialTextView displayNameView, MaterialTextView usernameView, MaterialTextView biographyView, MaterialTextView dateJoinedView) {
+    private void setProfile(User user, View view) {
+        MaterialTextView displayNameView = view.findViewById(R.id.display_name);
+        MaterialTextView usernameView = view.findViewById(R.id.username);
+        MaterialTextView biographyView = view.findViewById(R.id.biography);
+        MaterialTextView dateJoinedView = view.findViewById(R.id.date_joined);
+
         displayNameView.setText(user.getDisplayName());
-
         usernameView.setText(getString(R.string.username_field, user.getUsername()));
-        usernameView.setOnLongClickListener(view-> onUsernameHoldListener(user));
-
         biographyView.setText(user.getBio());
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(user.getAccountMade());
         dateJoinedView.setText(getString(
-                R.string.date_joined_field,
-                calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()),
-                calendar.get(Calendar.YEAR))
-        );
+                        R.string.date_joined_field,
+                        calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()),
+                        calendar.get(Calendar.YEAR)));
+
+
+        usernameView.setOnLongClickListener(v-> onUsernameHoldListener(user));
     }
 
     private boolean onUsernameHoldListener(User user) {
@@ -187,18 +153,22 @@ public class UserProfileFragment extends Fragment implements StandardFragmentFor
         return true;
     }
 
-    private void setFollowButton(User user, Button followButton) {
+    private void setFollowButton(User user, View view) {
+        Button followButton = view.findViewById(R.id.follow_button);
         followButton.setVisibility(View.VISIBLE);
-        followButton.setOnClickListener(view-> userProfileEventListener.onFollowButtonClicked(this, user));
+        followButton.setOnClickListener(v-> userProfileEventListener.onFollowButtonClicked(this, user));
     }
 
-    private void setUnfollowButton(User user, Button unfollowButton) {
+    private void setUnfollowButton(User user, View view) {
+        Button unfollowButton = view.findViewById(R.id.unfollow_button);
         unfollowButton.setVisibility(View.VISIBLE);
-        unfollowButton.setOnClickListener(view -> userProfileEventListener.onUnfollowButtonClicked(this, user));
+        unfollowButton.setOnClickListener(v -> userProfileEventListener.onUnfollowButtonClicked(this, user));
     }
 
-    private void setEditProfileButton(Button editProfileButton) {
+    private void setEditProfileButton(View view) {
+        Button editProfileButton = view.findViewById(R.id.edit_profile_button);
         editProfileButton.setVisibility(View.VISIBLE);
+        editProfileButton.setOnClickListener(v -> userProfileEventListener.onEditProfileButtonClicked());
 
     }
 
@@ -207,4 +177,18 @@ public class UserProfileFragment extends Fragment implements StandardFragmentFor
             getActivity().runOnUiThread(() -> AndroidUtils.showLongToastMessage(getContext(), message, 2000));
     }
 
+
+    private void setFollowingsCountView(Bundle userData, View view) {
+        MaterialTextView followingsCountView = view.findViewById(R.id.following_count);
+        followingsCountView.setText(getString(R.string.following_count, userData.getInt("followings_count")));
+
+        followingsCountView.setOnClickListener(v-> userProfileEventListener.onFollowersCountClicked(this, (User)userData.getSerializable("user")));
+    }
+
+    private void setFollowersCountView(Bundle userData, View view) {
+        MaterialTextView followersCountView = view.findViewById(R.id.follower_count);
+        followersCountView.setText(getString(R.string.follower_count, userData.getInt("followers_count")));
+
+        followersCountView.setOnClickListener(v-> userProfileEventListener.onFollowersCountClicked(this, (User)userData.getSerializable("user")));
+    }
 }

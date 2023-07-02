@@ -4,13 +4,14 @@ package com.twitter.myapplication.Utils.StorageManager;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import com.twitter.common.Models.Messages.Visuals.Visual;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
@@ -36,6 +37,30 @@ public class StorageAccessor {
             Log.e(StorageAccessor.class.getName(), "writing bytes to cache failed:\n" + Arrays.toString(e.getStackTrace()));
         }
         return tempFile;
+    }
+
+
+    public static File contentUriToFile(Context context, Uri uri) {
+        String mimeType = context.getContentResolver().getType(uri);
+        File file = new File(context.getCacheDir(), "tempFile" + "." + formatFromType(mimeType));
+        try (InputStream inputStream = context.getContentResolver().openInputStream(uri); FileOutputStream outputStream = new FileOutputStream(file)) {
+            if (inputStream == null) return null;
+            // create a new file in the app's cache directory
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+
+            // read from the input stream and write to the file
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.flush();
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void saveObjectToCache(Context context, String filename, Object obj) {
@@ -85,6 +110,10 @@ public class StorageAccessor {
 
             fis.write(bytes);
         }
+    }
+
+    private static String formatFromType(String mimeType) {
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
     }
 
 

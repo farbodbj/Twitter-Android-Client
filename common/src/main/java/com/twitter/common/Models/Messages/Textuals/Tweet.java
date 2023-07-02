@@ -74,12 +74,8 @@ public class Tweet extends Textual {
     }
 
     public void addImageAttachment(String path) throws AttachmentError {
-        try {
-            File file = new File(path);
-            addImageAttachment(new Image(file));
-        } catch (IOException e) {
-            throw new AttachmentError();
-        }
+        File file = new File(path);
+        addImageAttachment(new Image(file));
     }
 
     public void addImageAttachment(Image image) throws AttachmentError {
@@ -90,12 +86,8 @@ public class Tweet extends Textual {
     }
 
     public void addVideoAttachment(String path) throws AttachmentError {
-        try {
-            File file = new File(path);
-            addVideoAttachment(new Video(file));
-        } catch (IOException e) {
-            throw new AttachmentError();
-        }
+        File file = new File(path);
+        addVideoAttachment(new Video(file));
     }
 
     public void addVideoAttachment(Video video) throws AttachmentError{

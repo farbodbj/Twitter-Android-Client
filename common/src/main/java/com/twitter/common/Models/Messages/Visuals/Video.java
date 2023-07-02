@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Video extends Visual {
     public Video() {super();}
-    public Video(File file) throws IOException {
+    public Video(File file) {
         super(file);
     }
 }

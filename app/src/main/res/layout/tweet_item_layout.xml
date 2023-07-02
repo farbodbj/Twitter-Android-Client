@@ -13,7 +13,7 @@
         android:layout_marginBottom="@dimen/margin_s">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profile_picture"
+            android:id="@+id/profile_picture_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginStart="@dimen/margin_s"
-            android:layout_toEndOf="@id/profile_picture">
+            android:layout_toEndOf="@id/profile_picture_choice">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,9 +42,9 @@
                     android:id="@+id/tweet_author_display_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/margin_l"
+                    android:layout_marginEnd="@dimen/margin_s"
                     android:fontFamily="@font/segoe_bold"
-                    android:text="Elon Musk" />
+                    tools:text="Elon Musk" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tweet_author_username"
@@ -52,7 +52,8 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/segoe"
                     android:text="@string/username_field"
-                    android:textColor="@color/color_light_gray"/>
+                    android:textColor="@color/color_light_gray"
+                    tools:text="\@Elon_Musk"/>
 
             </LinearLayout>
 
@@ -77,7 +78,7 @@
                 android:paddingTop="@dimen/margin_m"
                 android:paddingBottom="@dimen/margin_m"
                 android:paddingEnd="@dimen/margin_m"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -145,6 +146,7 @@
     </RelativeLayout>
 
     <include layout="@layout/horizontal_line_break"
+        android:id="@+id/tweet_horizontal_line_break"
         android:layout_height="1dp"
         android:layout_width="match_parent"/>
 

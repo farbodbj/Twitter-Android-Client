@@ -1,4 +1,4 @@
-package com.twitter.myapplication.ViewHolders;
+package com.twitter.myapplication.ViewHolders.TweetViewHolders;
 
 import android.net.Uri;
 import android.view.View;
@@ -18,42 +18,43 @@ import com.twitter.common.Models.Messages.Textuals.Tweet;
 import com.twitter.common.Models.User;
 import com.twitter.myapplication.Adapters.AttachmentAdapter;
 import com.twitter.myapplication.R;
+import com.twitter.myapplication.StandardFormats.StandardViewHolder;
 import com.twitter.myapplication.Utils.StorageManager.StorageHandler;
 
-public class TweetViewHolder extends RecyclerView.ViewHolder {
-    public interface OnClickListener {
+public class TweetViewHolder extends RecyclerView.ViewHolder implements StandardViewHolder<Tweet> {
+    public interface TweetItemEventListener {
         void onMentionButtonClicked(Tweet parentTweet);
         void onQuoteButtonClicked(Tweet parentTweet);
         void onUserDisplayNameClicked(User user);
     }
 
-    OnClickListener onClickListener;
+    TweetItemEventListener tweetItemEventListener;
 
     private Tweet tweet;
-    ShapeableImageView profilePicture;
-    MaterialTextView authorDisplayName;
-    MaterialTextView authorUserName;
+    private ShapeableImageView profilePicture;
+    private MaterialTextView authorDisplayName;
+    private MaterialTextView authorUserName;
 
-    MaterialTextView tweetText;
-    RecyclerView tweetAttachmentsView;
+    private MaterialTextView tweetText;
+    private RecyclerView tweetAttachmentsView;
 
-    MaterialTextView mentionCount;
-    MaterialTextView retweetCount;
-    MaterialTextView favCount;
+    private MaterialTextView mentionCount;
+    private MaterialTextView retweetCount;
+    private MaterialTextView favCount;
 
-    ImageButton mentionButton;
-    ImageButton retweetButton;
-    ImageButton favButton;
-    ImageButton quoteButton;
+    private ImageButton mentionButton;
+    private ImageButton retweetButton;
+    private ImageButton favButton;
+    private ImageButton quoteButton;
 
-    public TweetViewHolder(@NonNull View itemView, OnClickListener onClickListener) {
+    public TweetViewHolder(@NonNull View itemView, TweetItemEventListener tweetItemEventListener) {
         super(itemView);
-        this.onClickListener = onClickListener;
-        initializeUiComponents();
+        this.tweetItemEventListener = tweetItemEventListener;
     }
 
-    private void initializeUiComponents() {
-        profilePicture = itemView.findViewById(R.id.profile_picture);
+    @Override
+    public void initializeUiComponents() {
+        profilePicture = itemView.findViewById(R.id.profile_picture_choice);
         authorDisplayName = itemView.findViewById(R.id.tweet_author_display_name);
         authorUserName = itemView.findViewById(R.id.tweet_author_username);
 
@@ -77,6 +78,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         setQuoteButton();
     }
 
+    @Override
     public void bind(Tweet tweet) {
         this.tweet = tweet;
 
@@ -87,16 +89,17 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         mentionCount.setText(String.valueOf(tweet.getMentionCount()));
         retweetCount.setText(String.valueOf(tweet.getRetweetCount()));
         favCount.setText(String.valueOf(tweet.getFavCount()));
-        setTweetAttachmentsView();
+        if(tweet.getAttachments().size() != 0)
+            setTweetAttachmentsView();
         setTweetProfilePicture();
     }
 
     private void setMentionButton(){
-        mentionButton.setOnClickListener(v -> onClickListener.onMentionButtonClicked(tweet));
+        mentionButton.setOnClickListener(v -> tweetItemEventListener.onMentionButtonClicked(tweet));
     }
 
     private void setAuthorDisplayName() {
-        authorDisplayName.setOnClickListener(v -> onClickListener.onUserDisplayNameClicked(tweet.getSender()));
+        authorDisplayName.setOnClickListener(v -> tweetItemEventListener.onUserDisplayNameClicked(tweet.getSender()));
     }
 
     private void setRetweetButton() {
@@ -155,7 +158,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
 
 
     private void setQuoteButton() {
-        quoteButton.setOnClickListener(v->onClickListener.onQuoteButtonClicked(tweet));
+        quoteButton.setOnClickListener(v-> tweetItemEventListener.onQuoteButtonClicked(tweet));
     }
 
 

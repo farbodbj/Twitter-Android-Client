@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="black">#FF000000</color>
+    <color name="dark_shade">#96000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#FAEBD7</color>
     <color name="transparent">#00000000</color>
+
 
     <color name="twitter_blue">#1DA1F2</color>
     <color name="A50">#e1f1fc</color>

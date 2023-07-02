@@ -17,9 +17,14 @@ public abstract class Visual implements Serializable {
     public Visual() {}
 
 
-    public Visual(File file) throws IOException {
-        this.fileBytes = Files.readAllBytes(file.toPath());
-        this.fileFormat = file.getName().substring(file.getName().lastIndexOf("."));
+    public Visual(File file) {
+        try{
+            this.fileBytes = Files.readAllBytes(file.toPath());
+            this.fileFormat = file.getName().substring(file.getName().lastIndexOf("."));
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+            System.out.println("Error reading file: " + file.getName());
+        }
     }
 
     public Visual(String pathInStorage) {

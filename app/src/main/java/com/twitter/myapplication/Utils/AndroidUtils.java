@@ -9,20 +9,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.widget.Toast;
 
-import androidx.core.view.ContentInfoCompat;
+import androidx.activity.result.ActivityResultCaller;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.twitter.common.Models.User;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 final public class AndroidUtils {
@@ -92,6 +91,34 @@ final public class AndroidUtils {
         }
 
         return null;
+    }
+
+
+    public static ActivityResultLauncher<PickVisualMediaRequest> multipleImageSelector(ActivityResultCaller resultCaller, int maxSelectionCount, MultipleImageChooserCallback callback) {
+        return resultCaller.registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(maxSelectionCount),
+            uris -> {
+                if (!uris.isEmpty()) {
+                    callback.onMultipleImageChosen(uris);
+                    Log.d("PhotoPicker", "Number of items selected: " + uris.size());
+                } else {
+                    Log.d("PhotoPicker", "No media selected");
+                }
+            }
+        );
+    }
+
+
+    public static ActivityResultLauncher<PickVisualMediaRequest> singleImageSelector(ActivityResultCaller resultCaller, SingleImageChooser callback) {
+        return resultCaller.registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
+            uri -> {
+                if (uri != null) {
+                    callback.onSingleImageChosen(uri);
+                    Log.d("PhotoPicker", "Number of items selected: " + uri);
+                } else {
+                    Log.d("PhotoPicker", "No media selected");
+                }
+            }
+        );
     }
 
 }

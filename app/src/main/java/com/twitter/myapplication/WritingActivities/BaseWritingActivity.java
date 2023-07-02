@@ -8,14 +8,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -70,20 +68,17 @@ public abstract class BaseWritingActivity extends AppCompatActivity implements S
     }
 
     protected void setChooseAttachments(ImageButton chooseAttachments, Tweet currentTweet) {
-        ActivityResultLauncher<PickVisualMediaRequest> pickMultipleMedia =
-                registerForActivityResult(new ActivityResultContracts.PickMultipleVisualMedia(Tweet.MAX_ATTACHMENT_COUNT), uris -> {
-                    for (Uri uri : uris) {
-                        setAttachments(currentTweet, uri);
-                    }
+        ActivityResultLauncher<PickVisualMediaRequest> imageSelector =
+                AndroidUtils.multipleImageSelector(
+                        this,
+                        Tweet.MAX_ATTACHMENT_COUNT,
+                        uris-> {
+                            for (Uri uri : uris) {
+                                setAttachments(currentTweet, uri);
+                            }
+                        });
 
-                    if (!uris.isEmpty()) {
-                        Log.d("PhotoPicker", "Number of items selected: " + uris.size());
-                    } else {
-                        Log.d("PhotoPicker", "No media selected");
-                    }
-                });
-
-        chooseAttachments.setOnClickListener(view -> pickMultipleMedia.launch(new PickVisualMediaRequest.Builder().build()));
+        chooseAttachments.setOnClickListener(view -> imageSelector.launch(new PickVisualMediaRequest.Builder().build()));
     }
 
     protected void setSendButton(Button sendButton) {

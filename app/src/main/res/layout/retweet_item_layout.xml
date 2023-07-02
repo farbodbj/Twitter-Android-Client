@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_s"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/tweet_item_layout"
+        android:id="@+id/retweeted" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/retweeted_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="@dimen/text_size_xs"
+        android:gravity="center_vertical"
+        android:layout_marginEnd="@dimen/margin_l"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="-8dp"
+        android:alpha="0.5"
+        android:fontFamily="@font/segoe_bold"
+        android:drawableStart="@drawable/retweet"
+        android:text="@string/retweeted_by"
+        tools:text="Retweeted by You"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

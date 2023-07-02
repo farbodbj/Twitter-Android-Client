@@ -19,10 +19,10 @@ import com.twitter.common.Models.Timeline;
 import com.twitter.common.Models.User;
 import com.twitter.myapplication.Adapters.TimelineAdapter;
 import com.twitter.myapplication.StandardFormats.StandardFragmentFormat;
-import com.twitter.myapplication.ViewHolders.TweetViewHolder;
+import com.twitter.myapplication.ViewHolders.TweetViewHolders.TweetViewHolder;
 
 
-public class TimelineFragment extends Fragment implements StandardFragmentFormat, TweetViewHolder.OnClickListener {
+public class TimelineFragment extends Fragment implements StandardFragmentFormat, TweetViewHolder.TweetItemEventListener {
 
     public interface TimelineFragmentEventListener {
         void onTimelineRefreshRequest(TimelineAdapter timelineAdapter, SwipeRefreshLayout swipeRefreshLayout);
@@ -56,23 +56,20 @@ public class TimelineFragment extends Fragment implements StandardFragmentFormat
 
     @Override
     public void initializeUIComponents(View view) {
-        RecyclerView timelineRecyclerView = view.findViewById(R.id.timeline_recycler_view);
-        SwipeRefreshLayout timelineSwipeRefresh = view.findViewById(R.id.timeline_swipe_refresh);
-
         Timeline init = new Timeline();
         this.timelineAdapter = new TimelineAdapter(init, this);
-        setTimelineRecyclerView(timelineRecyclerView, timelineAdapter);
-        setTimeLineSwipeRefresh(timelineSwipeRefresh, timelineAdapter);
+        setTimelineRecyclerView(timelineAdapter, view);
+        setTimeLineSwipeRefresh(timelineAdapter, view);
     }
 
-
-
-    private void setTimelineRecyclerView(RecyclerView timelineRecyclerView, TimelineAdapter timelineAdapter) {
+    private void setTimelineRecyclerView(TimelineAdapter timelineAdapter, View view) {
+        RecyclerView timelineRecyclerView = view.findViewById(R.id.timeline_recycler_view);
         timelineRecyclerView.setAdapter(timelineAdapter);
         timelineRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void setTimeLineSwipeRefresh(SwipeRefreshLayout timelineSwipeRefresh, TimelineAdapter timelineAdapter) {
+    private void setTimeLineSwipeRefresh(TimelineAdapter timelineAdapter, View view) {
+        SwipeRefreshLayout timelineSwipeRefresh = view.findViewById(R.id.timeline_swipe_refresh);
         timelineSwipeRefresh.setOnRefreshListener(() -> timelineFragmentEventListener.onTimelineRefreshRequest(timelineAdapter, timelineSwipeRefresh));
     }
 

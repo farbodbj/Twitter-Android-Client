@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
     <style name="default_button_style">
         <item name="android:layout_width">@dimen/button_width</item>
         <item name="android:layout_height">wrap_content</item>
@@ -22,8 +25,6 @@
         <item name="android:background">@drawable/hollow_button</item>
         <item name="android:fontWeight">600</item>
     </style>
-
-
 
     <style name="text_box" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
@@ -97,6 +98,44 @@
         <item name="android:layout_marginStart">@dimen/margin_s</item>
         <item name="android:fontFamily">@font/segoe</item>
         <item name="android:text">0</item>
+    </style>
+
+    <style name="profile_edit_textView_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_s</item>
+        <item name="android:layout_marginTop">@dimen/margin_m</item>
+        <item name="android:alpha">0.7</item>
+        <item name="android:textSize">@dimen/text_size_m</item>
+    </style>
+
+
+    <style name="profile_edit_editText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_s</item>
+        <item name="android:layout_marginTop">@dimen/margin_xl</item>
+        <item name="android:layout_marginEnd">@dimen/margin_s</item>
+    </style>
+
+    <style name="profile_picture_style" >
+        <item name="android:layout_width">@dimen/max_profile_picture_height</item>
+        <item name="android:layout_height">@dimen/max_profile_picture_width</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.App.CornerSize50Percent</item>
+    </style>
+
+    <style name="header_picture_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/header_picture_height</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="user_item_textView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_s</item>
+        <item name="android:fontFamily">@font/segoe</item>
+
     </style>
 
 

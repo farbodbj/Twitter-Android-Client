@@ -9,7 +9,7 @@ public class Image extends Visual {
 
     public Image() {super();}
 
-    public Image(File file) throws IOException {
+    public Image(File file){
         super(file);
     }
 }

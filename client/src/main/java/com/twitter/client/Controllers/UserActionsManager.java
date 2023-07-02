@@ -4,25 +4,23 @@ import com.twitter.client.APIClient.Callbacks.ErrorCallback;
 import com.twitter.client.APIClient.Callbacks.SuccessCallback;
 import com.twitter.client.APIClient.ClientHttpUtils;
 import com.twitter.client.APIClient.Callbacks.RequestErrorCallback;
-import com.twitter.client.APIClient.Callbacks.RequestSuccessCallback;
 import com.twitter.client.Session;
 import com.sun.net.httpserver.Headers;
 import com.twitter.common.API.API;
-import com.twitter.common.API.ResponseModel;
-import com.twitter.common.API.StatusCode;
 import com.twitter.common.Exceptions.*;
-import com.twitter.common.Models.Messages.Textuals.Direct;
 import com.twitter.common.Models.Messages.Textuals.Mention;
 import com.twitter.common.Models.Messages.Textuals.Quote;
 import com.twitter.common.Models.Messages.Textuals.Retweet;
 import com.twitter.common.Models.Messages.Textuals.Tweet;
+import com.twitter.common.Models.Messages.Visuals.Image;
 import com.twitter.common.Models.Timeline;
 import com.twitter.common.Models.User;
+import com.twitter.common.Models.UserGraph;
 import com.twitter.common.Utils.JwtUtils;
 
-import java.sql.Time;
 import java.util.HashMap;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -210,13 +208,139 @@ public class UserActionsManager {
                     onSuccess.onSuccess(responseModel.get());
                 });
     }
+
+    public void setNewProfilePic(int userId, Image newProfilePic, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
+        headers.put("userId", List.of(String.valueOf(userId)));
+
+        ClientHttpUtils.postSerialized(
+                API.SET_PROFILE_PIC,
+                newProfilePic,
+                headers,
+                Boolean.class,
+                error -> {
+                    //Error handling logic
+                },
+                responseModel->{
+                    onSuccess.onSuccess(responseModel.get());
+                });
+    }
+
+    public void setNewHeaderPic(int userId, Image newHeaderPic, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
+        Map<String, String> query = new HashMap<>();
+        headers.put("userId", List.of(String.valueOf(userId)));
+
+        ClientHttpUtils.postSerialized(
+                API.SET_HEADER,
+                newHeaderPic,
+                headers,
+                Boolean.class,
+                error -> {
+                    //Error handling logic
+                },
+                responseModel->{
+                    onSuccess.onSuccess(responseModel.get());
+                });
+
+    }
+
+    public void setNewAccountName(int userId, String newAccountName, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        setUserTextualAttribHelper(
+                API.SET_DISPLAY_NAME,
+                userId,
+                "displayName",
+                newAccountName,
+                onSuccess,
+                onException);
+    }
+
+    public void setNewLocation(int userId, String newLocation, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        setUserTextualAttribHelper(
+                API.SET_LOCATION,
+                userId,
+                "location",
+                newLocation,
+                onSuccess,
+                onException);
+    }
+
+    public void setNewBio(int userId, String newBio, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        setUserTextualAttribHelper(
+                API.SET_BIO,
+                userId,
+                "bio",
+                newBio,
+                onSuccess,
+                onException);
+    }
+
+    public void getFollowings(int userId, SuccessCallback<List<User>> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
+        Map<String, String> query = new HashMap<>();
+        query.put("userId", String.valueOf(userId));
+
+        ClientHttpUtils.getSerialized(
+                API.GET_FOLLOWINGS,
+                query,
+                headers,
+                UserGraph.class,
+                error->{
+
+                },
+                responseModel -> onSuccess.onSuccess(responseModel.get())
+        );
+    }
+
+
     public void getFollowingsCount(int userId, SuccessCallback<Integer> onSuccess, ErrorCallback onException) {
         getCount(API.GET_FOLLOWINGS_COUNT, userId, onSuccess, onException);
+    }
+
+
+    public void getFollowers(int userId, SuccessCallback<List<User>> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
+
+        Map<String, String> query = new HashMap<>();
+        query.put("userId", String.valueOf(userId));
+
+        ClientHttpUtils.getSerialized(
+                API.GET_FOLLOWERS,
+                query,
+                headers,
+                UserGraph.class,
+                error->{
+
+                },
+                responseModel -> onSuccess.onSuccess(responseModel.get())
+        );
     }
 
     public void getFollowersCount(int userId, SuccessCallback<Integer> onSuccess, ErrorCallback onException) {
         getCount(API.GET_FOLLOWERS_COUNT, userId, onSuccess, onException);
     }
+
+    public void searchForUser(String searchTerm, SuccessCallback<UserGraph> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
+        Map<String, String> query = new HashMap<>();
+        query.put("search_term", searchTerm);
+
+        ClientHttpUtils.getSerialized(
+                API.SEARCH_USERS,
+                query,
+                headers,
+                UserGraph.class,
+                error->{
+
+                },
+                responseModel -> {
+                    onSuccess.onSuccess(responseModel.get());
+                }
+        );
+
+    }
+
+
 
     private void getCount(String apiEndpoint, int userId, SuccessCallback<Integer> onSuccess, ErrorCallback onException) {
         Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
@@ -231,6 +355,25 @@ public class UserActionsManager {
                 Integer.class,
                 onException::onError,
                 responseModel -> onSuccess.onSuccess(responseModel.get())
+        );
+    }
+
+    private void setUserTextualAttribHelper(String path, int userId, String attribName, String attribValue, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+        Headers headers = JwtUtils.getJwtHeader(Session.getInstance().getSessionUser().getUserId());
+        headers.put("userId", List.of(String.valueOf(userId)));
+        headers.put(attribName, List.of(attribValue));
+
+        ClientHttpUtils.post(
+                path,
+                null,
+                headers,
+                Boolean.class,
+                exception -> {
+
+                },
+                responseModel -> {
+                    onSuccess.onSuccess(responseModel.get());
+                }
         );
     }
 
@@ -260,7 +403,7 @@ public class UserActionsManager {
 
     }
 
-    public void postRequest(String endpoint, Tweet requestObject, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
+    private void postRequest(String endpoint, Tweet requestObject, SuccessCallback<Boolean> onSuccess, ErrorCallback onException) {
         ClientHttpUtils.postSerialized(
                 endpoint,
                 requestObject,
