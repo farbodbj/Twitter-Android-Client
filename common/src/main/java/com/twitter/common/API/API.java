@@ -2,7 +2,9 @@ package com.twitter.common.API;
 
 public class API {
     public static final int PORT = 6985;
-    public static final String BASE_URL = "http://192.168.1.141:" + PORT;
+
+    public final static String SERVER_IP = "192.168.1.141";
+    public static final String BASE_URL = "http://" + SERVER_IP + ":" + PORT;
 
     public static final String AUTH_ENDPOINT = "/auth";
     public static final String SIGN_UP = AUTH_ENDPOINT + "/sign-up";

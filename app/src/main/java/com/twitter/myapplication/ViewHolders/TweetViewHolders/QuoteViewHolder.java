@@ -1,15 +1,18 @@
 package com.twitter.myapplication.ViewHolders.TweetViewHolders;
 
+import android.net.Uri;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.twitter.common.Models.Messages.Textuals.Quote;
 import com.twitter.myapplication.R;
 import com.twitter.myapplication.StandardFormats.StandardViewHolder;
+import com.twitter.myapplication.Utils.StorageManager.StorageHandler;
 
 public class QuoteViewHolder extends RecyclerView.ViewHolder implements StandardViewHolder<Quote>{
     private TweetViewHolder quoteViewHolder;
@@ -39,10 +42,17 @@ public class QuoteViewHolder extends RecyclerView.ViewHolder implements Standard
     public void bind(Quote data) {
         quoteViewHolder.bind(data);
 
-        //TODO: bind quoted profile picture
         quotedDisplayName.setText(data.getQuoted().getSender().getDisplayName());
         quotedUsername.setText(data.getQuoted().getSender().getUsername());
         quotedText.setText(data.getQuoted().getText());
+
+        Uri profileUri = StorageHandler.saveTweetProfilePicture(itemView.getContext(), data.getQuoted());
+        Glide
+                .with(quotedProfilePicture.getContext())
+                .load(profileUri)
+                .placeholder(R.drawable.profile_placeholder)
+                .centerCrop()
+                .into(quotedProfilePicture);
     }
 
     private void hideTweetLineBreak() {

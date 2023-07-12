@@ -122,7 +122,8 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/sign_up_successful"
-            android:text="@string/sign_in_success"
-            style="@style/success_text" />
+            android:text="@string/sign_up_success"
+            style="@style/success_text"
+            android:visibility="invisible"/>
     </LinearLayout>
 </FrameLayout>
