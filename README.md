@@ -1,4 +1,4 @@
-# Title: Twitter Android Client
+# Twitter Android Client
 
 ## Description
 
@@ -22,6 +22,9 @@ After the client essential methods were created and tested thoroughly, the navig
 
 
 ## Visuals (Light Theme):
+### Visual introduction
+<img src = "visuals/recording.gif"/>
+
 ### Screenshots
 <table style="width:100%">
   <tr>
