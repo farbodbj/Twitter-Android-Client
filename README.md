@@ -22,9 +22,31 @@ After the client essential methods were created and tested thoroughly, the navig
 
 
 ## Visuals (Light Theme):
-
-
-
+### Screenshots
+<table style="width:100%">
+  <tr>
+    <th>Startup</th>
+    <th>Sign in</th> 
+    <th>Sign up</th>
+    <th>Timeline</th>
+  </tr>
+  <tr>
+    <td><img src = "visuals/startup.jpg" width=240/></td> 
+    <td><img src = "visuals/signin.jpg" width=240/></td>
+    <td><img src = "visuals/signup.jpg" width=240/></td> 
+    <td><img src = "visuals/timeline.jpg" width=240/></td>
+  </tr>
+  <tr>
+    <th>User profile</th>
+    <th>Write tweet</th>
+    <th>Search user</th>
+  </tr>
+  <tr>
+    <td><img src = "visuals/user-profile.jpg" width=240/></td>
+    <td><img src = "visuals/write-tweet.jpg" width=240/></td>
+    <td><img src = "visuals/search-user.jpg" width=240/></td>
+  </tr>
+</table>
 
 ## Contributing:
 
